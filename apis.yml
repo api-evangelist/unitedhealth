@@ -1,17 +1,15 @@
 aid: unitedhealth
-url: 
-  https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/apis.yml
 modified: '2026-03-21'
 apis:
   - aid: unitedhealth:optum-api
     name: UnitedHealth Group API
     tags:
+      - Claims
+      - FHIR
       - Healthcare
       - Insurance
-      - FHIR
-      - Claims
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.uhc.com
     humanURL: https://www.uhc.com/legal/interoperability-apis
     properties:
