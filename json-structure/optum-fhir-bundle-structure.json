@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-structure/optum-fhir-bundle-structure.json",
+  "name": "UnitedHealth Group FHIR Bundle",
+  "type": "object",
+  "description": "FHIR R4 Bundle resource containing a collection of resources from UnitedHealth Group interoperability APIs",
+  "fields": [
+    {
+      "name": "resourceType",
+      "type": "string",
+      "description": "FHIR resource type",
+      "enum": [
+        "Bundle"
+      ]
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Bundle ID"
+    },
+    {
+      "name": "meta",
+      "type": "object",
+      "description": "Bundle metadata"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Bundle type",
+      "enum": [
+        "searchset",
+        "collection"
+      ]
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "description": "Total matching resources"
+    },
+    {
+      "name": "link",
+      "type": "array",
+      "description": "Pagination links",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "entry",
+      "type": "array",
+      "description": "Bundle entries",
+      "items": {
+        "type": "object"
+      }
+    }
+  ]
+}

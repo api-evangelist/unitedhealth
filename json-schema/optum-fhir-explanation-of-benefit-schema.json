@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-schema/optum-fhir-explanation-of-benefit-schema.json",
+  "title": "UnitedHealth Group FHIR ExplanationOfBenefit",
+  "description": "FHIR R4 ExplanationOfBenefit resource representing a claim with adjudication details for UnitedHealth Group members",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "ExplanationOfBenefit"
+      ],
+      "description": "FHIR resource type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Resource ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "cancelled",
+        "draft",
+        "entered-in-error"
+      ],
+      "description": "EOB status"
+    },
+    "type": {
+      "type": "object",
+      "description": "Claim type coding"
+    },
+    "patient": {
+      "type": "object",
+      "description": "Reference to Patient"
+    },
+    "billablePeriod": {
+      "type": "object",
+      "description": "Service period",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation date"
+    },
+    "provider": {
+      "type": "object",
+      "description": "Provider reference"
+    },
+    "insurance": {
+      "type": "array",
+      "description": "Insurance coverage",
+      "items": {
+        "type": "object"
+      }
+    },
+    "item": {
+      "type": "array",
+      "description": "Claim line items",
+      "items": {
+        "type": "object"
+      }
+    },
+    "total": {
+      "type": "array",
+      "description": "Adjudication totals",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "object"
+          },
+          "amount": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

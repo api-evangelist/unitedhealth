@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-structure/optum-fhir-coverage-structure.json",
+  "name": "UnitedHealth Group FHIR Coverage",
+  "type": "object",
+  "description": "FHIR R4 Coverage resource representing UnitedHealth Group insurance coverage including plan, group, and benefit period",
+  "fields": [
+    {
+      "name": "resourceType",
+      "type": "string",
+      "description": "FHIR resource type",
+      "enum": [
+        "Coverage"
+      ]
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Resource ID"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "Coverage status",
+      "enum": [
+        "active",
+        "cancelled",
+        "draft",
+        "entered-in-error"
+      ]
+    },
+    {
+      "name": "type",
+      "type": "object",
+      "description": "Coverage type coding"
+    },
+    {
+      "name": "subscriber",
+      "type": "object",
+      "description": "Subscriber reference"
+    },
+    {
+      "name": "subscriberId",
+      "type": "string",
+      "description": "Subscriber/member ID"
+    },
+    {
+      "name": "beneficiary",
+      "type": "object",
+      "description": "Beneficiary patient reference"
+    },
+    {
+      "name": "relationship",
+      "type": "object",
+      "description": "Relationship to subscriber"
+    },
+    {
+      "name": "period",
+      "type": "object",
+      "description": "Coverage period"
+    },
+    {
+      "name": "payor",
+      "type": "array",
+      "description": "Payer references",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "class",
+      "type": "array",
+      "description": "Plan classification",
+      "items": {
+        "type": "object"
+      }
+    }
+  ]
+}

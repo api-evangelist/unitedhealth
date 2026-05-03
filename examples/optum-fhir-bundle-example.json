@@ -1,0 +1,77 @@
+{
+  "resourceType": "Bundle",
+  "id": "uh-bundle-eob-search-001",
+  "meta": {
+    "lastUpdated": "2026-05-03T08:00:00Z"
+  },
+  "type": "searchset",
+  "total": 12,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://api.uhc.com/fhir/R4/ExplanationOfBenefit?patient=uh-patient-123456789&_count=5"
+    },
+    {
+      "relation": "next",
+      "url": "https://api.uhc.com/fhir/R4/ExplanationOfBenefit?patient=uh-patient-123456789&_count=5&_offset=5"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://api.uhc.com/fhir/R4/ExplanationOfBenefit/eob-pro-001",
+      "resource": {
+        "resourceType": "ExplanationOfBenefit",
+        "id": "eob-pro-001",
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+              "code": "professional",
+              "display": "Professional"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/uh-patient-123456789"
+        },
+        "billablePeriod": {
+          "start": "2026-03-10",
+          "end": "2026-03-10"
+        },
+        "created": "2026-03-20T00:00:00Z",
+        "total": [
+          {
+            "category": {
+              "coding": [
+                {
+                  "code": "submitted"
+                }
+              ]
+            },
+            "amount": {
+              "value": 200.0,
+              "currency": "USD"
+            }
+          },
+          {
+            "category": {
+              "coding": [
+                {
+                  "code": "benefit"
+                }
+              ]
+            },
+            "amount": {
+              "value": 140.0,
+              "currency": "USD"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+  ]
+}

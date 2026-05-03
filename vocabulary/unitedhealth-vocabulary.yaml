@@ -1,0 +1,291 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "UnitedHealth Group"
+  description: "Unified taxonomy for UnitedHealth Group Optum FHIR R4 interoperability APIs covering patient access, claims, coverage, provider directory, and drug formulary."
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+operational:
+  apis:
+    - namespace: uh-fhir
+      version: "R4"
+      baseUrl: https://api.uhc.com/fhir/R4
+      status: active
+
+  resources:
+    - name: patient
+      apis:
+        - uh-fhir
+      actions:
+        - get
+    - name: explanation-of-benefit
+      apis:
+        - uh-fhir
+      actions:
+        - list
+    - name: coverage
+      apis:
+        - uh-fhir
+      actions:
+        - list
+    - name: condition
+      apis:
+        - uh-fhir
+      actions:
+        - list
+    - name: practitioner
+      apis:
+        - uh-fhir
+      actions:
+        - list
+    - name: organization
+      apis:
+        - uh-fhir
+      actions:
+        - list
+    - name: medication-knowledge
+      apis:
+        - uh-fhir
+      actions:
+        - list
+
+  actions:
+    - name: get
+      httpMethod: GET
+      pattern: read
+    - name: list
+      httpMethod: GET
+      pattern: read
+
+  schemas:
+    core:
+      - name: FHIRBundle
+        api: uh-fhir
+        keyProperties:
+          - resourceType
+          - id
+          - type
+          - total
+          - link
+          - entry
+      - name: FHIRPatient
+        api: uh-fhir
+        keyProperties:
+          - resourceType
+          - id
+          - identifier
+          - name
+          - birthDate
+          - gender
+      - name: FHIRExplanationOfBenefit
+        api: uh-fhir
+        keyProperties:
+          - resourceType
+          - id
+          - status
+          - type
+          - patient
+          - billablePeriod
+          - total
+      - name: FHIRCoverage
+        api: uh-fhir
+        keyProperties:
+          - resourceType
+          - id
+          - status
+          - subscriberId
+          - period
+          - class
+      - name: FHIRPractitioner
+        api: uh-fhir
+        keyProperties:
+          - resourceType
+          - id
+          - identifier
+          - active
+          - name
+          - address
+          - qualification
+      - name: FHIRMedicationKnowledge
+        api: uh-fhir
+        keyProperties:
+          - resourceType
+          - id
+          - status
+          - code
+          - synonym
+          - drugCharacteristic
+
+  enums:
+    fhirGender:
+      - male
+      - female
+      - other
+      - unknown
+    fhirBundleType:
+      - searchset
+      - collection
+    eobStatus:
+      - active
+      - cancelled
+      - draft
+      - entered-in-error
+    coverageStatus:
+      - active
+      - cancelled
+      - draft
+      - entered-in-error
+    claimType:
+      - professional
+      - institutional
+      - pharmacy
+      - oral
+    conditionClinicalStatus:
+      - active
+      - recurrence
+      - relapse
+      - inactive
+      - remission
+      - resolved
+
+  authentication:
+    schemes:
+      - type: bearer
+        name: bearerAuth
+        description: OAuth 2.0 Bearer token for UnitedHealth Group FHIR APIs
+        apisUsing:
+          - uh-fhir
+
+capability:
+  workflows:
+    - name: health-data-interoperability
+      file: capabilities/health-data-interoperability.yaml
+      description: FHIR R4 health data interoperability workflow for member access, claims, coverage, conditions, providers, and formulary
+      apisCombined:
+        - uh-fhir
+      toolCount: 6
+      personas:
+        - health-app-developer
+        - care-manager
+        - member
+        - provider
+      domains:
+        - Health Data Interoperability
+        - Patient Engagement
+        - Provider Directory
+        - Drug Formulary
+
+  personas:
+    - id: health-app-developer
+      name: Health App Developer
+      description: Developer building FHIR-compliant applications using UnitedHealth Group interoperability APIs
+      workflows:
+        - health-data-interoperability
+    - id: care-manager
+      name: Care Manager
+      description: Care management professional accessing member health data for population health and care coordination
+      workflows:
+        - health-data-interoperability
+    - id: member
+      name: UnitedHealth Group Member
+      description: Member accessing their own health data through FHIR Patient Access APIs
+      workflows:
+        - health-data-interoperability
+    - id: provider
+      name: Healthcare Provider
+      description: Provider using directory and formulary APIs for patient care support
+      workflows:
+        - health-data-interoperability
+
+  domains:
+    - name: Health Data Interoperability
+      description: CMS-mandated FHIR R4 data exchange for patient health records and claims
+      resources:
+        - patient
+        - explanation-of-benefit
+        - coverage
+        - condition
+    - name: Patient Engagement
+      description: Member-facing health data access and transparency
+      resources:
+        - patient
+        - explanation-of-benefit
+        - coverage
+    - name: Provider Directory
+      description: Network provider search and directory services
+      resources:
+        - practitioner
+        - organization
+    - name: Drug Formulary
+      description: Drug coverage and formulary management
+      resources:
+        - medication-knowledge
+
+  namespaces:
+    consumed:
+      - name: uh-fhir
+        type: http
+        baseUri: https://api.uhc.com/fhir/R4
+    restExposed:
+      - name: uh-interoperability-api
+        port: 8080
+    mcpExposed:
+      - name: uh-interoperability-mcp
+        port: 9090
+
+  binds:
+    - name: UH_FHIR_TOKEN
+      description: OAuth 2.0 Bearer token for UnitedHealth Group FHIR Interoperability APIs
+      workflows:
+        - health-data-interoperability
+
+crossReference:
+  - resource: patient
+    operations:
+      - get-patient
+    workflows:
+      - health-data-interoperability
+    personas:
+      - member
+      - care-manager
+  - resource: explanation-of-benefit
+    operations:
+      - list-eobs
+    workflows:
+      - health-data-interoperability
+    personas:
+      - member
+      - care-manager
+  - resource: coverage
+    operations:
+      - list-coverage
+    workflows:
+      - health-data-interoperability
+    personas:
+      - member
+      - health-app-developer
+  - resource: condition
+    operations:
+      - list-conditions
+    workflows:
+      - health-data-interoperability
+    personas:
+      - care-manager
+      - provider
+  - resource: practitioner
+    operations:
+      - list-practitioners
+    workflows:
+      - health-data-interoperability
+    personas:
+      - member
+      - provider
+  - resource: medication-knowledge
+    operations:
+      - list-formulary
+    workflows:
+      - health-data-interoperability
+    personas:
+      - provider
+      - member

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-schema/optum-fhir-bundle-schema.json",
+  "title": "UnitedHealth Group FHIR Bundle",
+  "description": "FHIR R4 Bundle resource containing a collection of resources from UnitedHealth Group interoperability APIs",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "Bundle"
+      ],
+      "description": "FHIR resource type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Bundle ID"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Bundle metadata",
+      "properties": {
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "searchset",
+        "collection"
+      ],
+      "description": "Bundle type"
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total matching resources"
+    },
+    "link": {
+      "type": "array",
+      "description": "Pagination links",
+      "items": {
+        "type": "object",
+        "properties": {
+          "relation": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "entry": {
+      "type": "array",
+      "description": "Bundle entries",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fullUrl": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "object"
+          },
+          "search": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "resourceType": "MedicationKnowledge",
+  "id": "uh-formulary-lisinopril-10mg",
+  "status": "active",
+  "code": {
+    "coding": [
+      {
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "314077",
+        "display": "lisinopril 10 MG Oral Tablet"
+      }
+    ]
+  },
+  "synonym": [
+    "Prinivil",
+    "Zestril"
+  ],
+  "doseForm": {
+    "coding": [
+      {
+        "code": "TAB",
+        "display": "Tablet"
+      }
+    ]
+  },
+  "drugCharacteristic": [
+    {
+      "type": {
+        "coding": [
+          {
+            "code": "formulary-tier"
+          }
+        ]
+      },
+      "value": "1"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "code": "prior-auth-required"
+          }
+        ]
+      },
+      "value": false
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "code": "quantity-limit"
+          }
+        ]
+      },
+      "value": "30 tablets per 30 days"
+    }
+  ]
+}

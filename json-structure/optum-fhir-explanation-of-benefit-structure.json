@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-structure/optum-fhir-explanation-of-benefit-structure.json",
+  "name": "UnitedHealth Group FHIR ExplanationOfBenefit",
+  "type": "object",
+  "description": "FHIR R4 ExplanationOfBenefit resource representing a claim with adjudication details for UnitedHealth Group members",
+  "fields": [
+    {
+      "name": "resourceType",
+      "type": "string",
+      "description": "FHIR resource type",
+      "enum": [
+        "ExplanationOfBenefit"
+      ]
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Resource ID"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "EOB status",
+      "enum": [
+        "active",
+        "cancelled",
+        "draft",
+        "entered-in-error"
+      ]
+    },
+    {
+      "name": "type",
+      "type": "object",
+      "description": "Claim type coding"
+    },
+    {
+      "name": "patient",
+      "type": "object",
+      "description": "Reference to Patient"
+    },
+    {
+      "name": "billablePeriod",
+      "type": "object",
+      "description": "Service period"
+    },
+    {
+      "name": "created",
+      "type": "datetime",
+      "description": "Creation date"
+    },
+    {
+      "name": "provider",
+      "type": "object",
+      "description": "Provider reference"
+    },
+    {
+      "name": "insurance",
+      "type": "array",
+      "description": "Insurance coverage",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "item",
+      "type": "array",
+      "description": "Claim line items",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "total",
+      "type": "array",
+      "description": "Adjudication totals",
+      "items": {
+        "type": "object"
+      }
+    }
+  ]
+}

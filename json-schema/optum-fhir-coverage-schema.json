@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-schema/optum-fhir-coverage-schema.json",
+  "title": "UnitedHealth Group FHIR Coverage",
+  "description": "FHIR R4 Coverage resource representing UnitedHealth Group insurance coverage including plan, group, and benefit period",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "Coverage"
+      ],
+      "description": "FHIR resource type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Resource ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "cancelled",
+        "draft",
+        "entered-in-error"
+      ],
+      "description": "Coverage status"
+    },
+    "type": {
+      "type": "object",
+      "description": "Coverage type coding"
+    },
+    "subscriber": {
+      "type": "object",
+      "description": "Subscriber reference"
+    },
+    "subscriberId": {
+      "type": "string",
+      "description": "Subscriber/member ID"
+    },
+    "beneficiary": {
+      "type": "object",
+      "description": "Beneficiary patient reference"
+    },
+    "relationship": {
+      "type": "object",
+      "description": "Relationship to subscriber"
+    },
+    "period": {
+      "type": "object",
+      "description": "Coverage period",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "payor": {
+      "type": "array",
+      "description": "Payer references",
+      "items": {
+        "type": "object"
+      }
+    },
+    "class": {
+      "type": "array",
+      "description": "Plan classification",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "object"
+          },
+          "value": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

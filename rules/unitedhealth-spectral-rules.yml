@@ -1,0 +1,221 @@
+rules:
+  # INFO / METADATA
+  info-title-required:
+    description: API title must be present.
+    severity: error
+    given: "$.info.title"
+    then:
+      function: truthy
+
+  info-title-unitedhealth-prefix:
+    description: UnitedHealth Group API titles should start with "UnitedHealth Group".
+    severity: warn
+    given: "$.info.title"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^UnitedHealth Group"
+
+  info-description-required:
+    description: API description must be present and meaningful.
+    severity: warn
+    given: "$.info.description"
+    then:
+      function: minLength
+      functionOptions:
+        min: 50
+
+  info-version-required:
+    description: API version must be specified.
+    severity: error
+    given: "$.info.version"
+    then:
+      function: truthy
+
+  # OPENAPI VERSION
+  openapi-version:
+    description: APIs should use OpenAPI 3.x.
+    severity: warn
+    given: "$.openapi"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^3\\."
+
+  # SERVERS
+  servers-required:
+    description: Servers array must be defined.
+    severity: error
+    given: "$.servers"
+    then:
+      function: truthy
+
+  servers-https-only:
+    description: All server URLs must use HTTPS.
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  servers-uhc-domain:
+    description: UnitedHealth Group API servers should use uhc.com domain.
+    severity: warn
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "uhc\\.com"
+
+  # PATHS — NAMING CONVENTIONS
+  paths-kebab-case:
+    description: Path segments should use kebab-case.
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-zA-Z0-9-{}./]+)+$"
+
+  paths-no-trailing-slash:
+    description: Paths must not end with a trailing slash.
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/$"
+
+  # OPERATIONS
+  operation-summary-required:
+    description: Every operation must have a summary.
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch]"
+    then:
+      field: summary
+      function: truthy
+
+  operation-summary-prefix:
+    description: Operation summaries should start with UnitedHealth Group.
+    severity: info
+    given: "$.paths[*][get,post,put,delete,patch].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^UnitedHealth Group"
+
+  operation-description-required:
+    description: Every operation must have a description.
+    severity: warn
+    given: "$.paths[*][get,post,put,delete,patch]"
+    then:
+      field: description
+      function: truthy
+
+  operation-id-required:
+    description: Every operation must have an operationId.
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch]"
+    then:
+      field: operationId
+      function: truthy
+
+  operation-id-camel-case:
+    description: OperationIds should use camelCase.
+    severity: warn
+    given: "$.paths[*][get,post,put,delete,patch].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  operation-tags-required:
+    description: Every operation must have at least one tag.
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch].tags"
+    then:
+      function: truthy
+
+  # PARAMETERS
+  parameter-description-required:
+    description: Every parameter must have a description.
+    severity: warn
+    given: "$.paths[*][get,post,put,delete,patch].parameters[*]"
+    then:
+      field: description
+      function: truthy
+
+  parameter-schema-required:
+    description: Every parameter must have a schema.
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch].parameters[*]"
+    then:
+      field: schema
+      function: truthy
+
+  # RESPONSES
+  response-success-required:
+    description: Every operation must define at least one 2xx response.
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch].responses"
+    then:
+      function: truthy
+
+  response-401-required:
+    description: All operations should define a 401 Unauthorized response.
+    severity: warn
+    given: "$.paths[*][get,post,put,delete,patch].responses"
+    then:
+      field: "401"
+      function: truthy
+
+  response-description-required:
+    description: Every response must have a description.
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch].responses[*]"
+    then:
+      field: description
+      function: truthy
+
+  # SCHEMAS
+  schema-description-required:
+    description: Top-level schemas should have a description.
+    severity: warn
+    given: "$.components.schemas[*]"
+    then:
+      field: description
+      function: truthy
+
+  # SECURITY
+  security-schemes-defined:
+    description: Security schemes must be defined in components.
+    severity: error
+    given: "$.components.securitySchemes"
+    then:
+      function: truthy
+
+  # HTTP METHOD CONVENTIONS
+  get-no-request-body:
+    description: GET operations must not have a request body.
+    severity: error
+    given: "$.paths[*].get.requestBody"
+    then:
+      function: falsy
+
+  # FHIR SPECIFIC
+  fhir-content-type:
+    description: FHIR APIs should use application/fhir+json content type.
+    severity: warn
+    given: "$.paths[*][get,post].responses[*].content"
+    then:
+      function: truthy
+
+  # GENERAL QUALITY
+  microcks-operation-present:
+    description: Operations should include x-microcks-operation for mock compatibility.
+    severity: info
+    given: "$.paths[*][get,post,put,delete,patch]"
+    then:
+      field: x-microcks-operation
+      function: truthy

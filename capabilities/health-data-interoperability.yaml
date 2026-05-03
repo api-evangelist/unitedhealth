@@ -1,0 +1,188 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "UnitedHealth Group Health Data Interoperability"
+  description: >-
+    Workflow capability for CMS-compliant health data interoperability using UnitedHealth
+    Group FHIR R4 APIs. Enables patient portals, third-party health apps, care management
+    platforms, and provider tools to access member health records, claims history, coverage
+    details, clinical conditions, provider directory, and drug formulary data. Supports
+    CMS-9115-F Patient Access rule and Da Vinci implementation guides for payer data
+    exchange.
+  tags:
+    - UnitedHealth Group
+    - Optum
+    - FHIR
+    - Health Data Interoperability
+    - CMS Patient Access
+    - Da Vinci
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      UH_FHIR_TOKEN: UH_FHIR_TOKEN
+
+capability:
+  consumes:
+    - import: uh-fhir
+      location: ./shared/optum-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: uh-interoperability-api
+      description: "Unified REST API for UnitedHealth Group FHIR interoperability."
+      resources:
+        - path: /v1/members/{id}
+          name: member
+          description: "Member demographics."
+          operations:
+            - method: GET
+              name: get-member
+              description: "Get member FHIR Patient resource."
+              call: "uh-fhir.get-patient"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/members/{id}/claims
+          name: claims
+          description: "Member claims history."
+          operations:
+            - method: GET
+              name: list-member-claims
+              description: "List member claims as EOBs."
+              call: "uh-fhir.list-eobs"
+              with:
+                patient: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/members/{id}/coverage
+          name: coverage
+          description: "Member coverage."
+          operations:
+            - method: GET
+              name: get-member-coverage
+              description: "Get member coverage details."
+              call: "uh-fhir.list-coverage"
+              with:
+                patient: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/members/{id}/conditions
+          name: conditions
+          description: "Member conditions."
+          operations:
+            - method: GET
+              name: list-member-conditions
+              description: "List member conditions."
+              call: "uh-fhir.list-conditions"
+              with:
+                patient: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/providers
+          name: providers
+          description: "Provider directory."
+          operations:
+            - method: GET
+              name: search-providers
+              description: "Search provider directory."
+              call: "uh-fhir.list-practitioners"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/formulary
+          name: formulary
+          description: "Drug formulary."
+          operations:
+            - method: GET
+              name: search-formulary
+              description: "Search drug formulary."
+              call: "uh-fhir.list-formulary"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: uh-interoperability-mcp
+      transport: http
+      description: "MCP server for AI-assisted UnitedHealth Group FHIR data access."
+      tools:
+        - name: get-member-health-record
+          description: "Retrieve a UnitedHealth Group member's FHIR Patient record with demographics and identifiers."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uh-fhir.get-patient"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-member-claims-history
+          description: "Retrieve a member's complete claims history as FHIR ExplanationOfBenefit resources including services, diagnoses, and payment details."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uh-fhir.list-eobs"
+          with:
+            patient: "tools.memberId"
+            type: "tools.claimType"
+            _lastUpdated: "tools.since"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-insurance-coverage
+          description: "Get a member's UnitedHealth Group insurance coverage including plan name, group number, and benefit period."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uh-fhir.list-coverage"
+          with:
+            patient: "tools.memberId"
+            status: "tools.status"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-member-conditions
+          description: "Retrieve a member's health conditions and diagnoses from UnitedHealth Group clinical records and claims data."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uh-fhir.list-conditions"
+          with:
+            patient: "tools.memberId"
+            "clinical-status": "tools.clinicalStatus"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: find-in-network-provider
+          description: "Search the UnitedHealth Group provider directory for in-network physicians, specialists, and organizations by name, NPI, specialty, or state."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uh-fhir.list-practitioners"
+          with:
+            name: "tools.providerName"
+            identifier: "tools.npi"
+            specialty: "tools.specialty"
+            "address-state": "tools.state"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: check-drug-formulary
+          description: "Check UnitedHealth Group drug formulary coverage tier, prior authorization requirements, and quantity limits for a medication."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uh-fhir.list-formulary"
+          with:
+            code: "tools.rxnormCode"
+            drug-name: "tools.drugName"
+          outputParameters:
+            - type: object
+              mapping: "$."

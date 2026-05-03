@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-structure/optum-fhir-patient-structure.json",
+  "name": "UnitedHealth Group FHIR Patient",
+  "type": "object",
+  "description": "FHIR R4 Patient resource representing a UnitedHealth Group member with demographics, identifiers, and contact information",
+  "fields": [
+    {
+      "name": "resourceType",
+      "type": "string",
+      "description": "FHIR resource type",
+      "enum": [
+        "Patient"
+      ]
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Patient logical ID"
+    },
+    {
+      "name": "identifier",
+      "type": "array",
+      "description": "Patient identifiers",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "name",
+      "type": "array",
+      "description": "Patient names",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "birthDate",
+      "type": "date",
+      "description": "Date of birth"
+    },
+    {
+      "name": "gender",
+      "type": "string",
+      "description": "Administrative gender",
+      "enum": [
+        "male",
+        "female",
+        "other",
+        "unknown"
+      ]
+    },
+    {
+      "name": "address",
+      "type": "array",
+      "description": "Addresses",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "telecom",
+      "type": "array",
+      "description": "Contact details",
+      "items": {
+        "type": "object"
+      }
+    }
+  ]
+}

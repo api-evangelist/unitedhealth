@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-schema/optum-fhir-practitioner-schema.json",
+  "title": "UnitedHealth Group FHIR Practitioner",
+  "description": "FHIR R4 Practitioner resource from UnitedHealth Group provider directory implementing Da Vinci PDex Plan Net IG",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "Practitioner"
+      ],
+      "description": "FHIR resource type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Resource ID"
+    },
+    "identifier": {
+      "type": "array",
+      "description": "Provider identifiers including NPI",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Active status"
+    },
+    "name": {
+      "type": "array",
+      "description": "Provider name",
+      "items": {
+        "type": "object",
+        "properties": {
+          "family": {
+            "type": "string"
+          },
+          "given": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "prefix": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "telecom": {
+      "type": "array",
+      "description": "Contact details",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "use": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "address": {
+      "type": "array",
+      "description": "Practice addresses",
+      "items": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "qualification": {
+      "type": "array",
+      "description": "Credentials and certifications",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "object"
+          },
+          "period": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

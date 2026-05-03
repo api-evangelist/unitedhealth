@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-schema/optum-fhir-patient-schema.json",
+  "title": "UnitedHealth Group FHIR Patient",
+  "description": "FHIR R4 Patient resource representing a UnitedHealth Group member with demographics, identifiers, and contact information",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "Patient"
+      ],
+      "description": "FHIR resource type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Patient logical ID"
+    },
+    "identifier": {
+      "type": "array",
+      "description": "Patient identifiers",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string",
+            "format": "uri"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "name": {
+      "type": "array",
+      "description": "Patient names",
+      "items": {
+        "type": "object",
+        "properties": {
+          "use": {
+            "type": "string"
+          },
+          "family": {
+            "type": "string"
+          },
+          "given": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "birthDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of birth"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "other",
+        "unknown"
+      ],
+      "description": "Administrative gender"
+    },
+    "address": {
+      "type": "array",
+      "description": "Addresses",
+      "items": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "telecom": {
+      "type": "array",
+      "description": "Contact details",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "use": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

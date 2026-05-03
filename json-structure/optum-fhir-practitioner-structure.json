@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-structure/optum-fhir-practitioner-structure.json",
+  "name": "UnitedHealth Group FHIR Practitioner",
+  "type": "object",
+  "description": "FHIR R4 Practitioner resource from UnitedHealth Group provider directory implementing Da Vinci PDex Plan Net IG",
+  "fields": [
+    {
+      "name": "resourceType",
+      "type": "string",
+      "description": "FHIR resource type",
+      "enum": [
+        "Practitioner"
+      ]
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Resource ID"
+    },
+    {
+      "name": "identifier",
+      "type": "array",
+      "description": "Provider identifiers including NPI",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "description": "Active status"
+    },
+    {
+      "name": "name",
+      "type": "array",
+      "description": "Provider name",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "telecom",
+      "type": "array",
+      "description": "Contact details",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "address",
+      "type": "array",
+      "description": "Practice addresses",
+      "items": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "qualification",
+      "type": "array",
+      "description": "Credentials and certifications",
+      "items": {
+        "type": "object"
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/json-schema/optum-fhir-medication-knowledge-schema.json",
+  "title": "UnitedHealth Group FHIR MedicationKnowledge",
+  "description": "FHIR R4 MedicationKnowledge resource for drug formulary coverage information from UnitedHealth Group",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "MedicationKnowledge"
+      ],
+      "description": "FHIR resource type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Resource ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "entered-in-error"
+      ],
+      "description": "Drug status"
+    },
+    "code": {
+      "type": "object",
+      "description": "Drug code (RxNorm)"
+    },
+    "synonym": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Drug synonyms"
+    },
+    "doseForm": {
+      "type": "object",
+      "description": "Dose form coding"
+    },
+    "amount": {
+      "type": "object",
+      "description": "Drug quantity"
+    },
+    "drugCharacteristic": {
+      "type": "array",
+      "description": "Drug characteristics including formulary tier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "object"
+          },
+          "value": {}
+        }
+      }
+    },
+    "regulatory": {
+      "type": "array",
+      "description": "Regulatory information",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

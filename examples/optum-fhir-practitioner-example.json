@@ -1,0 +1,55 @@
+{
+  "resourceType": "Practitioner",
+  "id": "uh-practitioner-npi-9876543210",
+  "identifier": [
+    {
+      "system": "http://hl7.org/fhir/sid/us-npi",
+      "value": "9876543210"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Williams",
+      "given": [
+        "Sarah",
+        "A."
+      ],
+      "prefix": [
+        "Dr."
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "952-555-0400",
+      "use": "work"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "line": [
+        "456 Medical Plaza",
+        "Suite 200"
+      ],
+      "city": "Plymouth",
+      "state": "MN",
+      "postalCode": "55441"
+    }
+  ],
+  "qualification": [
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+            "code": "MD",
+            "display": "Doctor of Medicine"
+          }
+        ]
+      }
+    }
+  ]
+}
