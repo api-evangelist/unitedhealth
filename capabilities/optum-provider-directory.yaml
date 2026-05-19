@@ -1,0 +1,162 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: UnitedHealth Group Optum API — Provider Directory
+  description: 'UnitedHealth Group Optum API — Provider Directory. 2 operations. Lead operation: UnitedHealth Group List Network
+    Organizations. Self-contained Naftiko capability covering one Unitedhealth business surface.'
+  tags:
+  - Unitedhealth
+  - Provider Directory
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNITEDHEALTH_API_KEY: UNITEDHEALTH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: optum-provider-directory
+    baseUri: https://api.uhc.com/fhir/R4
+    description: UnitedHealth Group Optum API — Provider Directory business capability. Self-contained, no shared references.
+    resources:
+    - name: Organization
+      path: /Organization
+      operations:
+      - name: listorganizations
+        method: GET
+        description: UnitedHealth Group List Network Organizations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: Organization name search
+        - name: type
+          in: query
+          type: string
+          description: Organization type code
+        - name: address-state
+          in: query
+          type: string
+          description: State code filter
+        - name: _count
+          in: query
+          type: integer
+          description: Maximum number of results
+    - name: Practitioner
+      path: /Practitioner
+      operations:
+      - name: listpractitioners
+        method: GET
+        description: UnitedHealth Group List Network Practitioners
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: Provider name search
+        - name: identifier
+          in: query
+          type: string
+          description: NPI or other identifier
+        - name: specialty
+          in: query
+          type: string
+          description: Provider specialty taxonomy code
+        - name: address-state
+          in: query
+          type: string
+          description: State code for geographic filter
+        - name: _count
+          in: query
+          type: integer
+          description: Maximum number of results
+    authentication:
+      type: bearer
+      token: '{{env.UNITEDHEALTH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: optum-provider-directory-rest
+    port: 8080
+    description: REST adapter for UnitedHealth Group Optum API — Provider Directory. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/organization
+      name: organization
+      description: REST surface for Organization.
+      operations:
+      - method: GET
+        name: listorganizations
+        description: UnitedHealth Group List Network Organizations
+        call: optum-provider-directory.listorganizations
+        with:
+          name: rest.name
+          type: rest.type
+          address-state: rest.address-state
+          _count: rest._count
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/practitioner
+      name: practitioner
+      description: REST surface for Practitioner.
+      operations:
+      - method: GET
+        name: listpractitioners
+        description: UnitedHealth Group List Network Practitioners
+        call: optum-provider-directory.listpractitioners
+        with:
+          name: rest.name
+          identifier: rest.identifier
+          specialty: rest.specialty
+          address-state: rest.address-state
+          _count: rest._count
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: optum-provider-directory-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for UnitedHealth Group Optum API — Provider Directory. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: unitedhealth-group-list-network-organizations
+      description: UnitedHealth Group List Network Organizations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: optum-provider-directory.listorganizations
+      with:
+        name: tools.name
+        type: tools.type
+        address-state: tools.address-state
+        _count: tools._count
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unitedhealth-group-list-network-practitioners
+      description: UnitedHealth Group List Network Practitioners
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: optum-provider-directory.listpractitioners
+      with:
+        name: tools.name
+        identifier: tools.identifier
+        specialty: tools.specialty
+        address-state: tools.address-state
+        _count: tools._count
+      outputParameters:
+      - type: object
+        mapping: $.
