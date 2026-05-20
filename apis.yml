@@ -19,6 +19,9 @@ created: '2026-03-21'
 modified: '2026-05-19'
 position: Consuming
 specificationVersion: '0.19'
+common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/unitedhealth-group
 apis:
 - aid: unitedhealth:optum-api
   name: UnitedHealth Group Optum API
