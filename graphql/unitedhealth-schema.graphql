@@ -1,0 +1,1249 @@
+"""
+UnitedHealth Group GraphQL Schema
+Developer Portal: https://developer.uhc.com/
+Interoperability APIs: https://www.uhc.com/legal/interoperability-apis
+Standards: HL7 FHIR R4, CMS-9115-F, Da Vinci PDex Plan Net, Da Vinci Drug Formulary IG
+"""
+
+# ─── Root Types ───────────────────────────────────────────────────────────────
+
+type Query {
+  """Retrieve authenticated member data."""
+  member(id: ID!): Member
+
+  """Search insurance plans by criteria."""
+  plan(planId: ID, groupNumber: String, planType: PlanType): InsurancePlan
+
+  """Provider directory search and lookup."""
+  provider: ProviderQuery
+
+  """Claims history and status access."""
+  claim: ClaimQuery
+
+  """Prior authorization lookup."""
+  priorAuthorization(authNumber: ID!): PriorAuthorization
+
+  """Drug formulary and pharmacy services."""
+  formulary: FormularyQuery
+
+  """Plan benefits lookup."""
+  benefits(planId: ID!, serviceCategory: String): PlanBenefits
+
+  """Optum digital health services."""
+  digitalHealth(memberId: ID!): DigitalHealth
+
+  """API key management."""
+  apiKey(keyId: ID!): APIKey
+
+  """Webhook subscription lookup."""
+  webhook(webhookId: ID!): Webhook
+}
+
+type Mutation {
+  """Submit a specialist referral request."""
+  submitReferral(input: ReferralInput!): ReferralRequest
+
+  """Submit a prior authorization request."""
+  requestPriorAuthorization(input: PriorAuthInput!): PriorAuthorization
+
+  """Update member profile information."""
+  updateMemberProfile(memberId: ID!, input: MemberProfileInput!): MemberProfile
+
+  """Register a webhook for event notifications."""
+  registerWebhook(input: WebhookInput!): Webhook
+
+  """Deactivate an active webhook subscription."""
+  deactivateWebhook(webhookId: ID!): Webhook
+
+  """Generate an API key for developer portal access."""
+  createAPIKey(input: APIKeyInput!): APIKey
+
+  """Revoke an API key."""
+  revokeAPIKey(keyId: ID!): APIKey
+}
+
+type Subscription {
+  """Stream claim adjudication status updates."""
+  claimStatusUpdated(memberId: ID!): ClaimStatus
+
+  """Receive prior authorization decision events."""
+  authorizationDecision(memberId: ID!): AuthStatus
+
+  """Notify on member eligibility or coverage changes."""
+  eligibilityChanged(memberId: ID!): MemberEligibility
+}
+
+# ─── Member and Eligibility Types ─────────────────────────────────────────────
+
+"""Core UnitedHealthcare member identity and plan associations."""
+type Member {
+  id: ID!
+  memberId: String!
+  groupNumber: String
+  memberProfile: MemberProfile
+  memberCard: MemberCard
+  eligibility(planId: ID): MemberEligibility
+  dependents: [DependentCoverage!]
+  claims: ClaimSummary
+  healthSavingsAccount: HealthSavingsAccount
+  fsa: FSA
+  hra: HRA
+  cobra: COBRA
+  optumRx: OptumRx
+  digitalHealth: DigitalHealth
+}
+
+"""Extended member profile with contact information and preferences."""
+type MemberProfile {
+  memberId: String!
+  firstName: String!
+  lastName: String!
+  middleName: String
+  dateOfBirth: String!
+  gender: String
+  email: String
+  phone: String
+  address: Address
+  preferredLanguage: String
+  pcpProvider: PCPProvider
+  planId: String
+  subscriberId: String
+  relationshipToSubscriber: RelationshipCode
+  communicationPreferences: CommunicationPreferences
+  healthSafeId: String
+}
+
+"""Digital insurance card with plan identification details."""
+type MemberCard {
+  memberId: String!
+  firstName: String!
+  lastName: String!
+  groupNumber: String!
+  groupName: String
+  planName: String!
+  planCode: String
+  networkName: String
+  rxBIN: String
+  rxPCN: String
+  rxGroup: String
+  issueDate: String
+  effectiveDate: String!
+  insurerName: String!
+  customerServicePhone: String
+  providerPhone: String
+  mentalHealthPhone: String
+  imageUrl: String
+}
+
+"""Real-time member eligibility verification."""
+type MemberEligibility {
+  memberId: String!
+  status: EligibilityStatus!
+  effectiveDate: String!
+  terminationDate: String
+  plan: InsurancePlan
+  deductible: Deductible
+  outOfPocketMax: OOP
+  copays: [Copay!]
+  coinsurance: [Coinsurance!]
+  networkType: NetworkType
+  pcpRequired: Boolean
+  referralRequired: Boolean
+  verifiedAt: String!
+}
+
+"""Coverage details for a dependent on the subscriber's plan."""
+type DependentCoverage {
+  dependentId: String!
+  firstName: String!
+  lastName: String!
+  dateOfBirth: String!
+  relationshipToSubscriber: RelationshipCode!
+  eligibilityStatus: EligibilityStatus!
+  effectiveDate: String!
+  terminationDate: String
+  planId: String
+  memberId: String!
+}
+
+# ─── Insurance Plan Types ─────────────────────────────────────────────────────
+
+"""Base insurance plan interface shared across all UnitedHealthcare products."""
+interface InsurancePlan {
+  planId: ID!
+  planName: String!
+  planType: PlanType!
+  planYear: Int!
+  effectiveDate: String!
+  terminationDate: String
+  groupNumber: String
+  networkType: NetworkType
+  benefits: PlanBenefits
+}
+
+"""Employer-sponsored and individual commercial health plans."""
+type CommercialPlan implements InsurancePlan {
+  planId: ID!
+  planName: String!
+  planType: PlanType!
+  planYear: Int!
+  effectiveDate: String!
+  terminationDate: String
+  groupNumber: String
+  networkType: NetworkType
+  benefits: PlanBenefits
+  employerName: String
+  hdhpEligible: Boolean
+  hsaCompatible: Boolean
+  metalTier: MetalTier
+  isASO: Boolean
+  stateOfIssue: String
+}
+
+"""Medicare Advantage (Part C) and Medicare Supplement plans."""
+type MedicarePlan implements InsurancePlan {
+  planId: ID!
+  planName: String!
+  planType: PlanType!
+  planYear: Int!
+  effectiveDate: String!
+  terminationDate: String
+  groupNumber: String
+  networkType: NetworkType
+  benefits: PlanBenefits
+  contractId: String
+  pbpNumber: String
+  partDIncluded: Boolean
+  snpType: SNPType
+  starRating: Float
+  lowIncomeSubsidy: Boolean
+}
+
+"""Medicaid managed care plans through UnitedHealthcare Community and State."""
+type MedicaidPlan implements InsurancePlan {
+  planId: ID!
+  planName: String!
+  planType: PlanType!
+  planYear: Int!
+  effectiveDate: String!
+  terminationDate: String
+  groupNumber: String
+  networkType: NetworkType
+  benefits: PlanBenefits
+  stateProgram: String!
+  stateCode: String!
+  aidCategory: String
+  ltssIncluded: Boolean
+  behavioralHealthCarveOut: Boolean
+}
+
+"""ACA Marketplace and Exchange plans with metal tier classifications."""
+type ExchangePlan implements InsurancePlan {
+  planId: ID!
+  planName: String!
+  planType: PlanType!
+  planYear: Int!
+  effectiveDate: String!
+  terminationDate: String
+  groupNumber: String
+  networkType: NetworkType
+  benefits: PlanBenefits
+  metalTier: MetalTier!
+  aptcEligible: Boolean
+  csrLevel: Int
+  exchangeId: String
+  serviceArea: String
+  offExchangeAvailable: Boolean
+}
+
+"""Small Business Health Options Program plans for small employers."""
+type SHOP implements InsurancePlan {
+  planId: ID!
+  planName: String!
+  planType: PlanType!
+  planYear: Int!
+  effectiveDate: String!
+  terminationDate: String
+  groupNumber: String
+  networkType: NetworkType
+  benefits: PlanBenefits
+  employerContributionMin: Float
+  minParticipationRate: Float
+  stateCode: String!
+  shopPlanId: String
+}
+
+# ─── Benefit and Cost-Sharing Types ───────────────────────────────────────────
+
+"""Comprehensive plan benefit structure for a given plan and member."""
+type PlanBenefits {
+  planId: String!
+  planName: String!
+  effectiveDate: String!
+  inNetwork: InNetworkBenefit!
+  outOfNetwork: OutOfNetworkBenefit
+  preventiveCare: BenefitDetail
+  emergencyCare: BenefitDetail
+  urgentCare: BenefitDetail
+  mentalHealth: BenefitDetail
+  substanceUse: BenefitDetail
+  maternityNB: BenefitDetail
+  pediatricDental: BenefitDetail
+  pediatricVision: BenefitDetail
+  prescriptionDrugs: BenefitDetail
+  rehabilitation: BenefitDetail
+  labRadiology: BenefitDetail
+  dmeDurable: BenefitDetail
+  homeHealth: BenefitDetail
+  skilledNursing: BenefitDetail
+  hospice: BenefitDetail
+}
+
+"""Individual benefit detail for a specific service category."""
+type BenefitDetail {
+  serviceCategory: String!
+  coverageType: String
+  copay: Copay
+  coinsurance: Coinsurance
+  deductibleApplies: Boolean
+  priorAuthRequired: Boolean
+  referralRequired: Boolean
+  coverageNotes: [String!]
+  quantityLimits: String
+}
+
+"""Annual deductible amounts for in-network and out-of-network services."""
+type Deductible {
+  planId: String
+  inNetwork: DeductibleAmount!
+  outOfNetwork: DeductibleAmount
+  combined: Boolean
+  accumPeriodStart: String
+  accumPeriodEnd: String
+}
+
+"""Deductible dollar amounts and year-to-date accumulation."""
+type DeductibleAmount {
+  individual: Float!
+  family: Float!
+  metToDate: Float
+  remaining: Float
+}
+
+"""Out-of-pocket maximum limits by network and accumulation period."""
+type OOP {
+  planId: String
+  inNetwork: OOPAmount!
+  outOfNetwork: OOPAmount
+  combined: Boolean
+  accumPeriodStart: String
+  accumPeriodEnd: String
+  includesMedical: Boolean
+  includesDrug: Boolean
+}
+
+"""OOP maximum dollar amounts and year-to-date accumulation."""
+type OOPAmount {
+  individual: Float!
+  family: Float!
+  metToDate: Float
+  remaining: Float
+}
+
+"""Fixed-dollar cost sharing for a specific service type."""
+type Copay {
+  serviceType: String!
+  amount: Float!
+  perVisit: Boolean
+  afterDeductible: Boolean
+  networkTier: String
+  notes: String
+}
+
+"""Percentage-based cost sharing after deductible is met."""
+type Coinsurance {
+  serviceType: String!
+  memberPercent: Float!
+  planPercent: Float!
+  afterDeductible: Boolean
+  networkTier: String
+  notes: String
+}
+
+"""In-network benefit details and cost-sharing summary."""
+type InNetworkBenefit {
+  deductible: DeductibleAmount!
+  oopMax: OOPAmount!
+  primaryCareCopay: Copay
+  specialistCopay: Copay
+  urgentCareCopay: Copay
+  emergencyRoomCopay: Copay
+  coinsurance: Float
+  preventiveCareNoCost: Boolean
+}
+
+"""Out-of-network benefit details if the plan provides any OON coverage."""
+type OutOfNetworkBenefit {
+  deductible: DeductibleAmount
+  oopMax: OOPAmount
+  coinsurance: Float
+  balanceBillingAllowed: Boolean
+  emergencyOONExceptions: Boolean
+  coveredAt: String
+}
+
+"""Plan network configuration type."""
+type NetworkType {
+  code: String!
+  name: String!
+  requiresPCP: Boolean!
+  requiresReferral: Boolean!
+  outOfNetworkCovered: Boolean!
+  description: String
+}
+
+"""Benefit tier classification used in cost-sharing calculations."""
+type Tier {
+  tierCode: String!
+  tierName: String!
+  tierLevel: Int!
+  costSharingType: String
+  description: String
+}
+
+# ─── Provider Directory Types ──────────────────────────────────────────────────
+
+"""Query entry points for provider directory searches."""
+type ProviderQuery {
+  """Search the provider directory by plan and geography."""
+  directory(planId: ID!, zipCode: String!, specialty: String, radiusMiles: Int, acceptingNew: Boolean): ProviderDirectory
+
+  """Retrieve a specific provider by NPI."""
+  byNPI(npi: String!, planId: ID!): Provider
+
+  """Find a member's designated PCP."""
+  pcp(memberId: ID!, planId: ID!): PCPProvider
+}
+
+"""Base provider record from the UnitedHealthcare network directory."""
+type Provider {
+  npi: String!
+  firstName: String
+  lastName: String
+  organizationName: String
+  displayName: String!
+  providerType: ProviderType!
+  specialties: [String!]!
+  credentials: [String!]
+  gender: String
+  languages: [String!]
+  locations: [ProviderLocation!]!
+  networkStatus: NetworkStatus!
+  acceptingPatients: AcceptingPatients
+  telehealth: Telehealth
+  affiliations: [String!]
+  boardCertifications: [String!]
+  graduateEducation: [String!]
+}
+
+"""Paginated provider directory response for a given plan and area."""
+type ProviderDirectory {
+  planId: String!
+  searchZip: String
+  radiusMiles: Int
+  specialty: String
+  totalCount: Int!
+  page: Int!
+  pageSize: Int!
+  providers: [Provider!]!
+}
+
+"""Primary care physician with panel management details."""
+type PCPProvider {
+  npi: String!
+  displayName: String!
+  specialty: String!
+  locations: [ProviderLocation!]!
+  networkStatus: NetworkStatus!
+  acceptingPatients: AcceptingPatients!
+  telehealth: Telehealth
+  pcpId: String
+  panelCapacity: Int
+  currentPanelSize: Int
+  assignedMembers: Int
+}
+
+"""Specialist provider with referral and credentialing details."""
+type SpecialistProvider {
+  npi: String!
+  displayName: String!
+  primarySpecialty: String!
+  subSpecialties: [String!]
+  locations: [ProviderLocation!]!
+  networkStatus: NetworkStatus!
+  acceptingPatients: AcceptingPatients!
+  telehealth: Telehealth
+  referralRequired: Boolean!
+  priorAuthSpecialties: [String!]
+  hospitalAffiliations: [String!]
+}
+
+"""Hospital or healthcare facility provider record."""
+type HospitalProvider {
+  npi: String!
+  organizationName: String!
+  facilityType: String!
+  locations: [ProviderLocation!]!
+  networkStatus: NetworkStatus!
+  accreditations: [String!]
+  serviceLines: [String!]
+  traumaLevel: String
+  magnetStatus: Boolean
+  bedCount: Int
+  emergencyServices: Boolean
+  helipads: Boolean
+}
+
+"""Behavioral health and mental health provider record."""
+type MentalHealthProvider {
+  npi: String!
+  displayName: String!
+  providerType: ProviderType!
+  specialties: [String!]!
+  locations: [ProviderLocation!]!
+  networkStatus: NetworkStatus!
+  acceptingPatients: AcceptingPatients!
+  telehealth: Telehealth
+  ageGroupsServed: [String!]
+  conditionsTreated: [String!]
+  therapyModalities: [String!]
+  substanceUseServices: Boolean
+}
+
+"""Confirmed in-network provider for a specific plan."""
+type InNetworkProvider {
+  provider: Provider!
+  planId: String!
+  networkEffectiveDate: String!
+  networkTerminationDate: String
+  tierLevel: Int
+  contractType: String
+}
+
+"""Network participation status for a provider and plan combination."""
+type NetworkStatus {
+  isInNetwork: Boolean!
+  planId: String
+  networkName: String
+  effectiveDate: String
+  terminationDate: String
+  tierLevel: Int
+  contractStatus: String
+}
+
+"""Panel availability and new patient acceptance status."""
+type AcceptingPatients {
+  isAccepting: Boolean!
+  newPatientTypes: [String!]
+  ageRestrictions: String
+  insuranceAccepted: [String!]
+  waitTimeWeeks: Int
+  lastVerifiedDate: String
+}
+
+"""Telehealth availability and virtual care capabilities."""
+type Telehealth {
+  available: Boolean!
+  visitTypes: [String!]
+  platforms: [String!]
+  stateLicenses: [String!]
+  onDemandAvailable: Boolean
+  scheduledAvailable: Boolean
+  providerUrl: String
+}
+
+"""Physical location for a provider or facility."""
+type ProviderLocation {
+  locationId: String
+  address: Address!
+  phone: String
+  fax: String
+  hours: String
+  acceptingNewPatients: Boolean
+  wheelchairAccessible: Boolean
+  distance: Float
+  latitude: Float
+  longitude: Float
+}
+
+# ─── Claims and EOB Types ─────────────────────────────────────────────────────
+
+"""Query entry points for claims and EOB access."""
+type ClaimQuery {
+  """Retrieve a specific claim by ID."""
+  byId(claimId: ID!, memberId: ID!): Claim
+
+  """Retrieve paginated claims history for a member."""
+  history(memberId: ID!, dateFrom: String!, dateTo: String!, page: Int, pageSize: Int): ClaimHistoryResult
+
+  """Aggregate claims summary for a member."""
+  summary(memberId: ID!, planYear: Int): ClaimSummary
+}
+
+"""Paginated claims history response."""
+type ClaimHistoryResult {
+  memberId: String!
+  dateFrom: String!
+  dateTo: String!
+  totalCount: Int!
+  page: Int!
+  pageSize: Int!
+  summary: ClaimSummary!
+  claims: [Claim!]!
+}
+
+"""Submitted healthcare claim with full adjudication detail."""
+type Claim {
+  claimId: ID!
+  memberId: String!
+  claimType: ClaimType!
+  serviceDate: String!
+  receivedDate: String!
+  processedDate: String
+  status: ClaimStatus!
+  provider: Provider
+  facilityName: String
+  diagnosisCodes: [String!]
+  lines: [ClaimLine!]!
+  eobDetail: EOBDetail
+  payment: ClaimPayment
+  totalBilled: Float!
+  totalAllowed: Float
+  totalPlanPaid: Float
+  totalMemberLiability: Float
+  relatedAuthNumber: String
+}
+
+"""Current adjudication status and processing stage for a claim."""
+type ClaimStatus {
+  claimId: String!
+  statusCode: String!
+  statusDescription: String!
+  processedDate: String
+  pendingReason: String
+  denialReason: String
+  appealDeadline: String
+  lastUpdated: String!
+}
+
+"""Individual service line on a claim."""
+type ClaimLine {
+  lineNumber: Int!
+  procedureCode: String!
+  procedureDescription: String
+  modifier: [String!]
+  serviceFromDate: String!
+  serviceToDate: String
+  units: Float
+  billedAmount: Float!
+  allowedAmount: Float
+  planPaid: Float
+  memberLiability: Float
+  copay: Float
+  deductible: Float
+  coinsurance: Float
+  reductionReason: String
+  renderingProviderNpi: String
+}
+
+"""Explanation of Benefits adjudication detail for a claim."""
+type EOBDetail {
+  claimId: String!
+  adjudicationDate: String
+  adjustmentReasons: [String!]
+  memberCopay: Float
+  memberDeductible: Float
+  memberCoinsurance: Float
+  memberOtherLiability: Float
+  primaryInsurancePaid: Float
+  coordinationOfBenefits: Float
+  priorAuthNumber: String
+  serviceCategory: String
+  networkIndicator: String
+  eobDocumentUrl: String
+}
+
+"""Payment record for an adjudicated claim."""
+type ClaimPayment {
+  claimId: String!
+  paymentDate: String
+  paymentAmount: Float!
+  paymentMethod: String
+  checkNumber: String
+  payeeName: String
+  payeeNpi: String
+  eraNumber: String
+  eftTraceNumber: String
+}
+
+"""Aggregate claims summary with totals by period and service category."""
+type ClaimSummary {
+  memberId: String!
+  periodStart: String!
+  periodEnd: String!
+  totalClaims: Int!
+  totalBilled: Float!
+  totalPlanPaid: Float!
+  totalMemberResponsibility: Float!
+  deductibleMetToDate: Float
+  oopMetToDate: Float
+  byServiceCategory: [CategorySummary!]
+}
+
+"""Claims total grouped by service category."""
+type CategorySummary {
+  serviceCategory: String!
+  claimCount: Int!
+  totalBilled: Float!
+  totalPlanPaid: Float!
+  totalMemberPaid: Float!
+}
+
+# ─── Prior Authorization and Referral Types ───────────────────────────────────
+
+"""Prior authorization request and determination record."""
+type PriorAuthorization {
+  authNumber: ID!
+  memberId: String!
+  requestDate: String!
+  status: AuthStatus!
+  requestingProvider: Provider
+  serviceProvider: Provider
+  procedureCodes: [String!]!
+  diagnosisCodes: [String!]!
+  serviceStartDate: String
+  serviceEndDate: String
+  quantityRequested: Int
+  quantityApproved: Int
+  clinicalNotes: String
+  determinationDate: String
+  expirationDate: String
+  denialReason: String
+  appealDeadline: String
+}
+
+"""Authorization determination status with decision details."""
+type AuthStatus {
+  authNumber: String!
+  statusCode: String!
+  statusDescription: String!
+  determinationDate: String
+  expirationDate: String
+  deniedReasonCode: String
+  deniedReasonDescription: String
+  modifiedApproval: Boolean
+  lastUpdated: String!
+}
+
+"""Specialist referral request details."""
+type ReferralRequest {
+  referralId: ID!
+  memberId: String!
+  requestDate: String!
+  status: ReferralStatus!
+  requestingPCP: PCPProvider
+  referredToProvider: SpecialistProvider
+  referralReason: String!
+  diagnosisCodes: [String!]
+  visitsRequested: Int
+  visitsApproved: Int
+  effectiveDate: String
+  expirationDate: String
+  authorizationNumber: String
+}
+
+"""Current status of a referral request."""
+type ReferralStatus {
+  referralId: String!
+  statusCode: String!
+  statusDescription: String!
+  approvedVisits: Int
+  expirationDate: String
+  lastUpdated: String!
+}
+
+# ─── Pharmacy and Formulary Types ─────────────────────────────────────────────
+
+"""Query entry points for drug formulary and pharmacy services."""
+type FormularyQuery {
+  """Look up a drug on the formulary by name or NDC."""
+  lookup(drugName: String, ndcCode: String, planId: ID!): FormularyLookup
+
+  """Search for in-network pharmacies."""
+  pharmacyDirectory(planId: ID!, zipCode: String!, radiusMiles: Int): PharmacyDirectory
+}
+
+"""Drug formulary search result with coverage and tier details."""
+type FormularyLookup {
+  drugName: String!
+  genericName: String
+  brandName: String
+  ndcCode: String
+  rxcuiCode: String
+  therapeuticClass: String
+  planId: String!
+  tier: DrugTier!
+  coverage: DrugCoverage!
+  alternatives: [FormularyLookup!]
+  quantityLimitDetail: String
+  stepTherapyDetail: String
+  priorAuthCriteria: String
+}
+
+"""Formulary tier classification for a drug on a specific plan."""
+type DrugTier {
+  tierNumber: Int!
+  tierName: String!
+  tierDescription: String
+  requiresPriorAuth: Boolean!
+  requiresStepTherapy: Boolean!
+  hasQuantityLimits: Boolean!
+  isSpecialty: Boolean!
+  isExcluded: Boolean!
+}
+
+"""Drug coverage cost-sharing and access details."""
+type DrugCoverage {
+  planId: String!
+  covered: Boolean!
+  retailCopay30Day: Float
+  retailCopay90Day: Float
+  mailOrderCopay90Day: Float
+  specialtyPharmacyCopay30Day: Float
+  coinsurancePercent: Float
+  deductibleApplies: Boolean
+  oopCountsTowardMax: Boolean
+  quantityLimit: String
+  daysSupplyLimit: Int
+}
+
+"""Network pharmacy search results."""
+type PharmacyDirectory {
+  planId: String!
+  searchZip: String
+  radiusMiles: Int
+  totalCount: Int!
+  pharmacies: [PharmacyLocation!]!
+}
+
+"""Individual pharmacy location in the network."""
+type PharmacyLocation {
+  pharmacyId: String!
+  name: String!
+  address: Address!
+  phone: String
+  hours: [String!]
+  isMailOrder: Boolean!
+  isSpecialty: Boolean!
+  distance: Float
+  networkTypes: [String!]
+  accepts90DaySupply: Boolean
+}
+
+"""OptumRx mail-order pharmacy service details."""
+type MailOrderPharmacy {
+  memberId: String!
+  enrollmentStatus: String
+  enrollmentDate: String
+  preferredShippingAddress: Address
+  autoRefillEnrolled: Boolean
+  pendingOrders: Int
+  orderHistory: [MailOrderHistory!]
+}
+
+"""Mail order prescription order history entry."""
+type MailOrderHistory {
+  orderId: String!
+  drugName: String!
+  ndcCode: String
+  daysSupply: Int
+  quantity: Float
+  orderDate: String!
+  shipDate: String
+  deliveryDate: String
+  trackingNumber: String
+  memberCopay: Float
+  refillsRemaining: Int
+}
+
+"""Specialty pharmacy provider for high-cost medications."""
+type SpecialtyPharmacy {
+  pharmacyId: String!
+  name: String!
+  address: Address!
+  phone: String
+  fax: String
+  therapeuticAreas: [String!]
+  accreditations: [String!]
+  sppEnrolled: Boolean
+}
+
+"""Specialty Pharmacy Program enrollment and case management."""
+type SPP {
+  memberId: String!
+  drugName: String!
+  enrollmentStatus: String!
+  enrollmentDate: String
+  caseManagerName: String
+  caseManagerPhone: String
+  assignedPharmacy: SpecialtyPharmacy
+  refillSchedule: String
+  adherenceScore: Float
+}
+
+"""OptumRx pharmacy benefit management details."""
+type OptumRx {
+  memberId: String!
+  rxMemberId: String
+  rxGroupNumber: String
+  rxBIN: String
+  rxPCN: String
+  homeDeliveryEnrolled: Boolean
+  mailOrder: MailOrderPharmacy
+  specialtyPrograms: [SPP!]
+  annualDrugDeductibleMet: Float
+  annualDrugOOPMet: Float
+}
+
+# ─── Health Services and Digital Types ───────────────────────────────────────
+
+"""Optum health services platform connection."""
+type Optum {
+  memberId: String!
+  optumId: String
+  healthSavingsAccount: HealthSavingsAccount
+  optumRx: OptumRx
+  digitalHealth: DigitalHealth
+  healthSafeId: String
+  wellnessPrograms: [WellnessProgram!]
+}
+
+"""HealthSafe ID identity and access management."""
+type HealthSafe {
+  healthSafeId: String!
+  memberId: String!
+  email: String
+  mfaEnabled: Boolean!
+  mfaMethods: [String!]
+  linkedAccounts: [String!]
+  lastLoginDate: String
+  accountStatus: String!
+  createdDate: String!
+}
+
+"""Digital health tools, wellness programs, and virtual care integrations."""
+type DigitalHealth {
+  memberId: String!
+  telehealthEnrolled: Boolean
+  wearableIntegrations: [String!]
+  wellnessPrograms: [WellnessProgram!]
+  virtualPrimaryCare: Boolean
+  mentalHealthApps: [String!]
+  myUHCAppRegistered: Boolean
+  appleHealthConnected: Boolean
+}
+
+"""Wellness and health management program enrollment."""
+type WellnessProgram {
+  programId: String!
+  programName: String!
+  enrollmentStatus: String!
+  enrollmentDate: String
+  incentiveEligible: Boolean
+  incentiveAmount: Float
+  completionDate: String
+}
+
+# ─── Account and Spending Types ───────────────────────────────────────────────
+
+"""Health Savings Account through Optum Bank."""
+type HealthSavingsAccount {
+  accountId: ID!
+  memberId: String!
+  accountStatus: String!
+  balance: Float!
+  ytdContributions: Float
+  ytdDistributions: Float
+  annualContributionLimit: Float
+  investmentBalance: Float
+  investmentsEnabled: Boolean
+  cardLastFour: String
+  openedDate: String!
+  statementUrl: String
+}
+
+"""Flexible Spending Account for medical or dependent care expenses."""
+type FSA {
+  accountId: ID!
+  memberId: String!
+  accountType: String!
+  balance: Float!
+  annualElection: Float!
+  ytdClaims: Float
+  gracePeriodsEndDate: String
+  runOutEndDate: String
+  cardLastFour: String
+  planYear: Int!
+}
+
+"""Health Reimbursement Arrangement funded by employer."""
+type HRA {
+  accountId: ID!
+  memberId: String!
+  hraType: String!
+  balance: Float!
+  employerContribution: Float!
+  ytdReimbursements: Float
+  eligibleExpenses: [String!]
+  carryoverAllowed: Boolean
+  carryoverLimit: Float
+  planYear: Int!
+}
+
+"""COBRA continuation coverage administration."""
+type COBRA {
+  memberId: String!
+  qualifyingEvent: String!
+  qualifyingEventDate: String!
+  cobraStartDate: String!
+  cobraEndDate: String!
+  electionDeadline: String!
+  electionStatus: String!
+  coveredPlans: [String!]!
+  monthlyPremium: Float!
+  administratorName: String
+  administratorPhone: String
+  paymentUrl: String
+}
+
+# ─── API and Integration Types ────────────────────────────────────────────────
+
+"""API key credentials for UHC developer portal access."""
+type APIKey {
+  keyId: ID!
+  keyName: String!
+  keyPrefix: String!
+  status: String!
+  scopes: [String!]!
+  environment: String!
+  createdDate: String!
+  expirationDate: String
+  lastUsedDate: String
+  rateLimitPerMinute: Int
+  rateLimitPerDay: Int
+}
+
+"""OAuth 2.0 and SMART on FHIR token for member-authorized API access."""
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  scope: String!
+  patientId: String
+  idToken: String
+  refreshToken: String
+  issuedAt: String!
+}
+
+"""Webhook subscription for event-driven notifications."""
+type Webhook {
+  webhookId: ID!
+  url: String!
+  events: [String!]!
+  status: String!
+  secret: String
+  createdDate: String!
+  lastTriggered: String
+  failureCount: Int
+  signingAlgorithm: String
+}
+
+# ─── Supporting Types ─────────────────────────────────────────────────────────
+
+"""Postal address shared across member, provider, and pharmacy types."""
+type Address {
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String
+}
+
+"""Member communication preference settings."""
+type CommunicationPreferences {
+  paperlessEOB: Boolean
+  paperlessBilling: Boolean
+  emailNotifications: Boolean
+  smsNotifications: Boolean
+  preferredContactMethod: String
+  preferredLanguage: String
+}
+
+# ─── Input Types ─────────────────────────────────────────────────────────────
+
+"""Input for submitting a referral request."""
+input ReferralInput {
+  memberId: ID!
+  requestingPCPNpi: String!
+  referredToNpi: String!
+  referralReason: String!
+  diagnosisCodes: [String!]!
+  visitsRequested: Int
+  urgency: String
+  clinicalNotes: String
+}
+
+"""Input for submitting a prior authorization request."""
+input PriorAuthInput {
+  memberId: ID!
+  requestingProviderNpi: String!
+  serviceProviderNpi: String
+  procedureCodes: [String!]!
+  diagnosisCodes: [String!]!
+  serviceStartDate: String!
+  serviceEndDate: String
+  quantityRequested: Int
+  urgency: String
+  clinicalNotes: String
+  attachmentUrls: [String!]
+}
+
+"""Input for updating member profile information."""
+input MemberProfileInput {
+  email: String
+  phone: String
+  address: AddressInput
+  preferredLanguage: String
+  communicationPreferences: CommunicationPreferencesInput
+}
+
+"""Input for registering a webhook subscription."""
+input WebhookInput {
+  url: String!
+  events: [String!]!
+  secret: String
+  signingAlgorithm: String
+}
+
+"""Input for creating a new API key."""
+input APIKeyInput {
+  keyName: String!
+  scopes: [String!]!
+  environment: String!
+  expirationDate: String
+}
+
+"""Reusable address input type."""
+input AddressInput {
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String
+}
+
+"""Input for communication preference updates."""
+input CommunicationPreferencesInput {
+  paperlessEOB: Boolean
+  paperlessBilling: Boolean
+  emailNotifications: Boolean
+  smsNotifications: Boolean
+  preferredContactMethod: String
+  preferredLanguage: String
+}
+
+# ─── Enums ───────────────────────────────────────────────────────────────────
+
+"""Insurance plan product type."""
+enum PlanType {
+  HMO
+  PPO
+  EPO
+  POS
+  HDHP
+  HMO_POS
+  INDEMNITY
+  MEDICARE_ADVANTAGE
+  MEDICARE_SUPPLEMENT
+  MEDICAID
+  CHIP
+  EXCHANGE
+  SHOP
+}
+
+"""ACA metal tier classification."""
+enum MetalTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  CATASTROPHIC
+}
+
+"""Medicare Special Needs Plan type."""
+enum SNPType {
+  CHRONIC_CONDITION
+  DUAL_ELIGIBLE
+  INSTITUTIONAL
+  NOT_SNP
+}
+
+"""Claim type classification."""
+enum ClaimType {
+  MEDICAL
+  PHARMACY
+  DENTAL
+  VISION
+  BEHAVIORAL_HEALTH
+}
+
+"""Member eligibility status code."""
+enum EligibilityStatus {
+  ACTIVE
+  INACTIVE
+  TERMINATED
+  PENDING
+  COBRA
+  SUSPENDED
+}
+
+"""Provider type classification."""
+enum ProviderType {
+  PHYSICIAN
+  NURSE_PRACTITIONER
+  PHYSICIAN_ASSISTANT
+  THERAPIST
+  PSYCHOLOGIST
+  FACILITY
+  HOSPITAL
+  URGENT_CARE
+  PHARMACY
+  LAB
+  IMAGING
+  HOME_HEALTH
+  SKILLED_NURSING
+  HOSPICE
+  DURABLE_MEDICAL_EQUIPMENT
+}
+
+"""Member relationship to subscriber."""
+enum RelationshipCode {
+  SELF
+  SPOUSE
+  CHILD
+  DOMESTIC_PARTNER
+  DEPENDENT
+  OTHER
+}
