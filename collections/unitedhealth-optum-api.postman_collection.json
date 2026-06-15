@@ -1,0 +1,1982 @@
+{
+  "item": [
+    {
+      "id": "220f1051-af7b-416a-a201-bfc7d135ef3f",
+      "name": "Patient Access",
+      "description": {
+        "content": "FHIR R4 Patient Access API for member health data (CMS-9115-F)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0318c17d-8025-42e7-866d-7cc7e6a502b9",
+          "name": "UnitedHealth Group Get Patient Demographics",
+          "request": {
+            "name": "UnitedHealth Group Get Patient Demographics",
+            "description": {
+              "content": "Retrieve FHIR R4 Patient resource for a UnitedHealthcare member including demographic information, member identifiers, contact details, and language preferences as required by the CMS Patient Access rule.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Patient",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) FHIR Patient resource logical ID (maps to member ID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6fe0659b-ae32-4a6b-9634-d74a861d687e",
+              "name": "FHIR R4 Patient resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Patient",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) FHIR Patient resource logical ID (maps to member ID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Patient\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"2021-08-23T15:30:52.914Z\",\n    \"profile\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"identifier\": [\n    {\n      \"system\": \"http://VLcKnryjByXciWCpxNKT.psjWiuXpHOoKJMXf6H-r1Va-EocqIhpZC.KWPar.VZYJTMcIMTzkboomyt+usq8jw.RL,YU.K\",\n      \"value\": \"string\"\n    },\n    {\n      \"system\": \"http://RkWGinje.oiauEcHYrp1SDjhQj6R9W1Dw9mlx71c\",\n      \"value\": \"string\"\n    }\n  ],\n  \"name\": [\n    {\n      \"use\": \"official\",\n      \"family\": \"string\",\n      \"given\": [\n        \"string\",\n        \"string\"\n      ],\n      \"prefix\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"use\": \"usual\",\n      \"family\": \"string\",\n      \"given\": [\n        \"string\",\n        \"string\"\n      ],\n      \"prefix\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"birthDate\": \"2003-02-08\",\n  \"gender\": \"other\",\n  \"address\": [\n    {\n      \"use\": \"string\",\n      \"line\": [\n        \"string\",\n        \"string\"\n      ],\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postalCode\": \"string\"\n    },\n    {\n      \"use\": \"string\",\n      \"line\": [\n        \"string\",\n        \"string\"\n      ],\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postalCode\": \"string\"\n    }\n  ],\n  \"telecom\": [\n    {\n      \"system\": \"fax\",\n      \"value\": \"string\",\n      \"use\": \"string\"\n    },\n    {\n      \"system\": \"phone\",\n      \"value\": \"string\",\n      \"use\": \"string\"\n    }\n  ],\n  \"communication\": [\n    {\n      \"language\": {},\n      \"preferred\": false\n    },\n    {\n      \"language\": {},\n      \"preferred\": true\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11c22a2c-d7e3-4cbd-872c-4f7fc8a8a221",
+              "name": "Unauthorized - invalid or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Patient",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) FHIR Patient resource logical ID (maps to member ID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1281486a-15bb-4d1d-a7d1-7be73649a2ac",
+              "name": "Forbidden - insufficient scope",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Patient",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) FHIR Patient resource logical ID (maps to member ID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3238b71a-6376-478a-ba0c-777e5352780e",
+              "name": "Patient not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Patient",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) FHIR Patient resource logical ID (maps to member ID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c189dc54-601b-4a83-935b-271053bb9ed6",
+              "name": "Too many requests - rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Patient",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) FHIR Patient resource logical ID (maps to member ID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5e407071-5c4f-4c7e-a42e-05f7769861de",
+          "name": "UnitedHealth Group List Claims as Explanation of Benefit",
+          "request": {
+            "name": "UnitedHealth Group List Claims as Explanation of Benefit",
+            "description": {
+              "content": "Retrieve FHIR R4 ExplanationOfBenefit (EOB) resources for a member providing comprehensive claims data including services rendered, diagnosis codes, procedure codes, amounts billed and paid, and adjudication details. Supports CMS Patient Access rule compliance for claims data access.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ExplanationOfBenefit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "patient",
+                  "value": "<string>",
+                  "description": "(Required) Patient resource ID to retrieve ExplanationOfBenefits for"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Claim type filter (professional, institutional, pharmacy, oral)"
+                },
+                {
+                  "disabled": false,
+                  "key": "_lastUpdated",
+                  "value": "<string>",
+                  "description": "Filter by last updated date/time in FHIR date format"
+                },
+                {
+                  "disabled": false,
+                  "key": "service-date",
+                  "value": "<date>",
+                  "description": "Filter by service date (FHIR date format)"
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "20",
+                  "description": "Maximum number of results per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "_offset",
+                  "value": "0",
+                  "description": "Pagination offset"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "234390f9-99a7-4448-8f86-a08e5536ba55",
+              "name": "FHIR Bundle of ExplanationOfBenefit resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ExplanationOfBenefit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_lastUpdated",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service-date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    },
+                    {
+                      "key": "_offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"1956-09-05T15:14:45.965Z\"\n  },\n  \"type\": \"searchset\",\n  \"total\": 5547,\n  \"link\": [\n    {\n      \"relation\": \"last\",\n      \"url\": \"http://KBD.yjwlO,15huMWA6MSV2QSa5Za9BAYdu\"\n    },\n    {\n      \"relation\": \"previous\",\n      \"url\": \"https://mTGwJynGaHceqEea.kuxRgYiYR\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"http://fJdCFlEXAlAeEpcxFAucxONIF.sezq2YpwkW2QpfnFlle2eki\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"include\"\n      }\n    },\n    {\n      \"fullUrl\": \"https://lSYYeIbNjsOZUVXxEBigAbUb.lhsq5YTL6tA4M6QN8pAtJuUZzJkhQDzbIfLKIpZXzpP5Wf\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"match\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99da9874-8079-490b-9153-9d9d997c177c",
+              "name": "Bad request - invalid query parameter",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ExplanationOfBenefit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_lastUpdated",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service-date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    },
+                    {
+                      "key": "_offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4f6539a5-1c5b-4d0c-a9df-e3fbba4071b3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ExplanationOfBenefit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_lastUpdated",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service-date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    },
+                    {
+                      "key": "_offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "111e496b-2cb5-4bd3-af15-c910c24ed34f",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ExplanationOfBenefit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_lastUpdated",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service-date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    },
+                    {
+                      "key": "_offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c5f798f5-ad29-4753-8d92-4c2ae8259945",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ExplanationOfBenefit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_lastUpdated",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service-date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    },
+                    {
+                      "key": "_offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43eca059-fbfd-4df3-bb46-1a5e2dcefb99",
+          "name": "UnitedHealth Group List Member Coverage",
+          "request": {
+            "name": "UnitedHealth Group List Member Coverage",
+            "description": {
+              "content": "Retrieve FHIR R4 Coverage resources for a member including current and historical insurance coverage details, plan names, benefit periods, group and member identifiers, and payer information across UnitedHealthcare commercial, Medicare, and Medicaid lines of business.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Coverage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "patient",
+                  "value": "<string>",
+                  "description": "(Required) Patient resource ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Coverage status filter"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1306ecc0-d85b-45e0-a8f2-da6c12f5f750",
+              "name": "FHIR Bundle of Coverage resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Coverage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"1956-09-05T15:14:45.965Z\"\n  },\n  \"type\": \"searchset\",\n  \"total\": 5547,\n  \"link\": [\n    {\n      \"relation\": \"last\",\n      \"url\": \"http://KBD.yjwlO,15huMWA6MSV2QSa5Za9BAYdu\"\n    },\n    {\n      \"relation\": \"previous\",\n      \"url\": \"https://mTGwJynGaHceqEea.kuxRgYiYR\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"http://fJdCFlEXAlAeEpcxFAucxONIF.sezq2YpwkW2QpfnFlle2eki\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"include\"\n      }\n    },\n    {\n      \"fullUrl\": \"https://lSYYeIbNjsOZUVXxEBigAbUb.lhsq5YTL6tA4M6QN8pAtJuUZzJkhQDzbIfLKIpZXzpP5Wf\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"match\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9a9d2de-effe-41e8-b706-4eb88eedd157",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Coverage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "549d13c6-1d12-4db6-bded-350590236676",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Coverage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c0a2bb1-6421-45ab-a37b-0a7956eeb02c",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Coverage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2ccb56c3-d931-4e0b-80fb-a9096e05421b",
+      "name": "Provider Directory",
+      "description": {
+        "content": "FHIR R4 Provider Directory API implementing Da Vinci PDex Plan Net IG",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ae65ae8e-d12c-4eac-8b09-420a78b67b47",
+          "name": "UnitedHealth Group List Network Practitioners",
+          "request": {
+            "name": "UnitedHealth Group List Network Practitioners",
+            "description": {
+              "content": "Search the UnitedHealthcare FHIR R4 Provider Directory for individual healthcare practitioners by name, NPI, specialty, or geographic location. Implements the Da Vinci PDex Plan Net Implementation Guide for provider directory services.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Practitioner"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Provider name search"
+                },
+                {
+                  "disabled": false,
+                  "key": "identifier",
+                  "value": "<string>",
+                  "description": "NPI or other identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "specialty",
+                  "value": "<string>",
+                  "description": "Provider specialty taxonomy code"
+                },
+                {
+                  "disabled": false,
+                  "key": "address-state",
+                  "value": "<string>",
+                  "description": "State code for geographic filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "20",
+                  "description": "Maximum number of results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5717219-c464-482c-90a5-c7534b1393d7",
+              "name": "FHIR Bundle of Practitioner resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Practitioner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "identifier",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "specialty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "address-state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"1956-09-05T15:14:45.965Z\"\n  },\n  \"type\": \"searchset\",\n  \"total\": 5547,\n  \"link\": [\n    {\n      \"relation\": \"last\",\n      \"url\": \"http://KBD.yjwlO,15huMWA6MSV2QSa5Za9BAYdu\"\n    },\n    {\n      \"relation\": \"previous\",\n      \"url\": \"https://mTGwJynGaHceqEea.kuxRgYiYR\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"http://fJdCFlEXAlAeEpcxFAucxONIF.sezq2YpwkW2QpfnFlle2eki\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"include\"\n      }\n    },\n    {\n      \"fullUrl\": \"https://lSYYeIbNjsOZUVXxEBigAbUb.lhsq5YTL6tA4M6QN8pAtJuUZzJkhQDzbIfLKIpZXzpP5Wf\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"match\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6947168d-994d-4eda-9fe4-5091828b099b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Practitioner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "identifier",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "specialty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "address-state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4db98fc2-e620-4532-9014-afec8e288529",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Practitioner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "identifier",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "specialty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "address-state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf1c33a4-699f-47c8-916f-e98630b18663",
+          "name": "UnitedHealth Group List Network Organizations",
+          "request": {
+            "name": "UnitedHealth Group List Network Organizations",
+            "description": {
+              "content": "Search the UnitedHealthcare FHIR R4 Provider Directory for healthcare organizations including hospitals, medical groups, and specialty facilities. Supports filtering by organization type, name, and location. Implements Da Vinci PDex Plan Net IG.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Organization"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Organization name search"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Organization type code"
+                },
+                {
+                  "disabled": false,
+                  "key": "address-state",
+                  "value": "<string>",
+                  "description": "State code filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "20",
+                  "description": "Maximum number of results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "057e7455-7ef4-4c30-a222-7462bc4b2a40",
+              "name": "FHIR Bundle of Organization resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "address-state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"1956-09-05T15:14:45.965Z\"\n  },\n  \"type\": \"searchset\",\n  \"total\": 5547,\n  \"link\": [\n    {\n      \"relation\": \"last\",\n      \"url\": \"http://KBD.yjwlO,15huMWA6MSV2QSa5Za9BAYdu\"\n    },\n    {\n      \"relation\": \"previous\",\n      \"url\": \"https://mTGwJynGaHceqEea.kuxRgYiYR\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"http://fJdCFlEXAlAeEpcxFAucxONIF.sezq2YpwkW2QpfnFlle2eki\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"include\"\n      }\n    },\n    {\n      \"fullUrl\": \"https://lSYYeIbNjsOZUVXxEBigAbUb.lhsq5YTL6tA4M6QN8pAtJuUZzJkhQDzbIfLKIpZXzpP5Wf\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"match\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01fed583-67d8-4aa9-9a88-e28f43e29ecb",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "address-state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b576b85a-3b0d-4f2e-8539-dd3b797c0a43",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "address-state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ea95a535-5b7a-43f9-acd0-738981f8805e",
+      "name": "Drug Formulary",
+      "description": {
+        "content": "FHIR R4 Drug Formulary API for prescription drug coverage information",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1da846e4-a873-4cd3-a774-5e9d56e2f250",
+          "name": "UnitedHealth Group List Formulary Drug Coverage",
+          "request": {
+            "name": "UnitedHealth Group List Formulary Drug Coverage",
+            "description": {
+              "content": "Retrieve drug formulary information from the UnitedHealthcare FHIR R4 Drug Formulary API including coverage tiers, formulary status, prior authorization requirements, quantity limits, and step therapy requirements for prescription drugs. Implements the Da Vinci Drug Formulary IG.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "MedicationKnowledge"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "code",
+                  "value": "<string>",
+                  "description": "RxNorm drug code"
+                },
+                {
+                  "disabled": false,
+                  "key": "drug-name",
+                  "value": "<string>",
+                  "description": "Drug name search string"
+                },
+                {
+                  "disabled": false,
+                  "key": "tier",
+                  "value": "<string>",
+                  "description": "Formulary tier number filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "20",
+                  "description": "Maximum number of results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "21ccca75-0096-4751-8196-a8e0b1396d66",
+              "name": "FHIR Bundle of MedicationKnowledge resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "MedicationKnowledge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "drug-name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tier",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"1956-09-05T15:14:45.965Z\"\n  },\n  \"type\": \"searchset\",\n  \"total\": 5547,\n  \"link\": [\n    {\n      \"relation\": \"last\",\n      \"url\": \"http://KBD.yjwlO,15huMWA6MSV2QSa5Za9BAYdu\"\n    },\n    {\n      \"relation\": \"previous\",\n      \"url\": \"https://mTGwJynGaHceqEea.kuxRgYiYR\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"http://fJdCFlEXAlAeEpcxFAucxONIF.sezq2YpwkW2QpfnFlle2eki\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"include\"\n      }\n    },\n    {\n      \"fullUrl\": \"https://lSYYeIbNjsOZUVXxEBigAbUb.lhsq5YTL6tA4M6QN8pAtJuUZzJkhQDzbIfLKIpZXzpP5Wf\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"match\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9957829c-2030-46d6-97e1-5a36d6ae48fe",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "MedicationKnowledge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "drug-name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tier",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "65c6bc82-5002-48c2-af2f-48dd214fb630",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "MedicationKnowledge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "drug-name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tier",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "f6604cac-e8fd-459d-8345-7fabe0d1dc2d",
+      "name": "Clinical Data",
+      "description": {
+        "content": "FHIR R4 clinical data including conditions, observations, and medications",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2e94f697-4e58-45a3-b431-cc47a1b6c7b2",
+          "name": "UnitedHealth Group List Member Conditions",
+          "request": {
+            "name": "UnitedHealth Group List Member Conditions",
+            "description": {
+              "content": "Retrieve FHIR R4 Condition resources for a member representing active and historical health conditions, diagnoses, and clinical problems as reflected in claims data and clinical records available through the Patient Access API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Condition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "patient",
+                  "value": "<string>",
+                  "description": "(Required) Patient resource ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "clinical-status",
+                  "value": "<string>",
+                  "description": "Condition clinical status filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "20",
+                  "description": "Maximum number of results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fb20d070-aeef-44a9-adb0-5c2be7ac8202",
+              "name": "FHIR Bundle of Condition resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Condition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clinical-status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/fhir+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/fhir+json"
+                }
+              ],
+              "body": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"string\",\n  \"meta\": {\n    \"lastUpdated\": \"1956-09-05T15:14:45.965Z\"\n  },\n  \"type\": \"searchset\",\n  \"total\": 5547,\n  \"link\": [\n    {\n      \"relation\": \"last\",\n      \"url\": \"http://KBD.yjwlO,15huMWA6MSV2QSa5Za9BAYdu\"\n    },\n    {\n      \"relation\": \"previous\",\n      \"url\": \"https://mTGwJynGaHceqEea.kuxRgYiYR\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"http://fJdCFlEXAlAeEpcxFAucxONIF.sezq2YpwkW2QpfnFlle2eki\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"include\"\n      }\n    },\n    {\n      \"fullUrl\": \"https://lSYYeIbNjsOZUVXxEBigAbUb.lhsq5YTL6tA4M6QN8pAtJuUZzJkhQDzbIfLKIpZXzpP5Wf\",\n      \"resource\": {},\n      \"search\": {\n        \"mode\": \"match\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6eb8713-429e-4f22-927c-aee42776578a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Condition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clinical-status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24a3c3ab-aad0-4d8f-aa5d-9104a452edc5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Condition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clinical-status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fe8b357a-4f10-427e-a3b5-56f69b57c847",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Condition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clinical-status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.uhc.com/fhir/R4",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b75fe319-cdfa-473f-9be5-fc54df9d0012",
+    "name": "UnitedHealth Group Optum API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The UnitedHealth Group interoperability APIs provide FHIR R4-compliant access to healthcare data including patient records, claims history, provider directories, and formulary information in compliance with CMS Interoperability and Patient Access final rule (CMS-9115-F). Operates under the Optum platform serving UnitedHealthcare, UHC Medicare & Retirement, UHC Community & State, and Optum health services. Enables third-party applications and partners to access member health data using HL7 FHIR R4 standards for interoperable health data exchange.\n\nContact Support:\n Name: UnitedHealth Group Interoperability",
+      "type": "text/plain"
+    }
+  }
+}

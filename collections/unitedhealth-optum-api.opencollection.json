@@ -1,0 +1,289 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "UnitedHealth Group Optum API",
+    "version": "R4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Patient Access",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "UnitedHealth Group Get Patient Demographics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Patient/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "FHIR Patient resource logical ID (maps to member ID)"
+              }
+            ]
+          },
+          "docs": "Retrieve FHIR R4 Patient resource for a UnitedHealthcare member including demographic information, member identifiers, contact details, and language preferences as required by the CMS Patient Access rule."
+        },
+        {
+          "info": {
+            "name": "UnitedHealth Group List Claims as Explanation of Benefit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/ExplanationOfBenefit",
+            "params": [
+              {
+                "name": "patient",
+                "value": "",
+                "type": "query",
+                "description": "Patient resource ID to retrieve ExplanationOfBenefits for"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Claim type filter (professional, institutional, pharmacy, oral)"
+              },
+              {
+                "name": "_lastUpdated",
+                "value": "",
+                "type": "query",
+                "description": "Filter by last updated date/time in FHIR date format"
+              },
+              {
+                "name": "service-date",
+                "value": "",
+                "type": "query",
+                "description": "Filter by service date (FHIR date format)"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results per page"
+              },
+              {
+                "name": "_offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Retrieve FHIR R4 ExplanationOfBenefit (EOB) resources for a member providing comprehensive claims data including services rendered, diagnosis codes, procedure codes, amounts billed and paid, and adjudication details. Supports CMS Patient Access rule compliance for claims data access."
+        },
+        {
+          "info": {
+            "name": "UnitedHealth Group List Member Coverage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Coverage",
+            "params": [
+              {
+                "name": "patient",
+                "value": "",
+                "type": "query",
+                "description": "Patient resource ID"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Coverage status filter"
+              }
+            ]
+          },
+          "docs": "Retrieve FHIR R4 Coverage resources for a member including current and historical insurance coverage details, plan names, benefit periods, group and member identifiers, and payer information across UnitedHealthcare commercial, Medicare, and Medicaid lines of business."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Clinical Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "UnitedHealth Group List Member Conditions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Condition",
+            "params": [
+              {
+                "name": "patient",
+                "value": "",
+                "type": "query",
+                "description": "Patient resource ID"
+              },
+              {
+                "name": "clinical-status",
+                "value": "",
+                "type": "query",
+                "description": "Condition clinical status filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Retrieve FHIR R4 Condition resources for a member representing active and historical health conditions, diagnoses, and clinical problems as reflected in claims data and clinical records available through the Patient Access API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Provider Directory",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "UnitedHealth Group List Network Practitioners",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Practitioner",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Provider name search"
+              },
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "query",
+                "description": "NPI or other identifier"
+              },
+              {
+                "name": "specialty",
+                "value": "",
+                "type": "query",
+                "description": "Provider specialty taxonomy code"
+              },
+              {
+                "name": "address-state",
+                "value": "",
+                "type": "query",
+                "description": "State code for geographic filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Search the UnitedHealthcare FHIR R4 Provider Directory for individual healthcare practitioners by name, NPI, specialty, or geographic location. Implements the Da Vinci PDex Plan Net Implementation Guide for provider directory services."
+        },
+        {
+          "info": {
+            "name": "UnitedHealth Group List Network Organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Organization",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Organization name search"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Organization type code"
+              },
+              {
+                "name": "address-state",
+                "value": "",
+                "type": "query",
+                "description": "State code filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Search the UnitedHealthcare FHIR R4 Provider Directory for healthcare organizations including hospitals, medical groups, and specialty facilities. Supports filtering by organization type, name, and location. Implements Da Vinci PDex Plan Net IG."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Drug Formulary",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "UnitedHealth Group List Formulary Drug Coverage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/MedicationKnowledge",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query",
+                "description": "RxNorm drug code"
+              },
+              {
+                "name": "drug-name",
+                "value": "",
+                "type": "query",
+                "description": "Drug name search string"
+              },
+              {
+                "name": "tier",
+                "value": "",
+                "type": "query",
+                "description": "Formulary tier number filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Retrieve drug formulary information from the UnitedHealthcare FHIR R4 Drug Formulary API including coverage tiers, formulary status, prior authorization requirements, quantity limits, and step therapy requirements for prescription drugs. Implements the Da Vinci Drug Formulary IG."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
