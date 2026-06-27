@@ -51,9 +51,9 @@ apis:
   - url: json-schema/optum-fhir-patient-schema.json
     type: Schema
   - url: json-ld/unitedhealth-optum-api-context.jsonld
-    type: JSON-LD Context
+    type: JSONLDContext
   - url: examples/optum-fhir-patient-example.json
-    type: Example
+    type: Examples
   - url: graphql/unitedhealth-graphql.md
     type: GraphQL
 features:
