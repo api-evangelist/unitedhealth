@@ -22,6 +22,12 @@ modified: '2026-05-19'
 position: Consuming
 specificationVersion: '0.19'
 common:
+- type: VulnerabilityDisclosure
+  url: security/unitedhealth-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/unitedhealth-domain-security.yml
+- type: Authentication
+  url: authentication/unitedhealth-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/unitedhealth-group
 apis:
