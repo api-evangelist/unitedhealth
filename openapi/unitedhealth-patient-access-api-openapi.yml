@@ -1,0 +1,352 @@
+openapi: 3.1.0
+info:
+  title: UnitedHealth Group Optum Clinical Data Patient Access API
+  description: The UnitedHealth Group interoperability APIs provide FHIR R4-compliant access to healthcare data including patient records, claims history, provider directories, and formulary information in compliance with CMS Interoperability and Patient Access final rule (CMS-9115-F). Operates under the Optum platform serving UnitedHealthcare, UHC Medicare & Retirement, UHC Community & State, and Optum health services. Enables third-party applications and partners to access member health data using HL7 FHIR R4 standards for interoperable health data exchange.
+  version: R4
+  contact:
+    name: UnitedHealth Group Interoperability
+    url: https://www.uhc.com/legal/interoperability-apis
+  license:
+    name: UnitedHealth Group API Terms of Use
+    url: https://www.uhc.com/legal/terms-of-use
+servers:
+- url: https://api.uhc.com/fhir/R4
+  description: UnitedHealth Group FHIR R4 Production
+security:
+- bearerAuth: []
+tags:
+- name: Patient Access
+  description: FHIR R4 Patient Access API for member health data (CMS-9115-F)
+paths:
+  /Patient/{id}:
+    get:
+      operationId: getPatient
+      summary: UnitedHealth Group Get Patient Demographics
+      description: Retrieve FHIR R4 Patient resource for a UnitedHealthcare member including demographic information, member identifiers, contact details, and language preferences as required by the CMS Patient Access rule.
+      tags:
+      - Patient Access
+      x-microcks-operation:
+        dispatcher: URI_PARTS
+        dispatcherRules: id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: FHIR Patient resource logical ID (maps to member ID)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: FHIR R4 Patient resource
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/FHIRPatient'
+        '401':
+          description: Unauthorized - invalid or expired token
+        '403':
+          description: Forbidden - insufficient scope
+        '404':
+          description: Patient not found
+        '429':
+          description: Too many requests - rate limit exceeded
+  /ExplanationOfBenefit:
+    get:
+      operationId: listExplanationOfBenefit
+      summary: UnitedHealth Group List Claims as Explanation of Benefit
+      description: Retrieve FHIR R4 ExplanationOfBenefit (EOB) resources for a member providing comprehensive claims data including services rendered, diagnosis codes, procedure codes, amounts billed and paid, and adjudication details. Supports CMS Patient Access rule compliance for claims data access.
+      tags:
+      - Patient Access
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'DEFAULT';
+      parameters:
+      - name: patient
+        in: query
+        required: true
+        description: Patient resource ID to retrieve ExplanationOfBenefits for
+        schema:
+          type: string
+      - name: type
+        in: query
+        required: false
+        description: Claim type filter (professional, institutional, pharmacy, oral)
+        schema:
+          type: string
+          enum:
+          - professional
+          - institutional
+          - pharmacy
+          - oral
+      - name: _lastUpdated
+        in: query
+        required: false
+        description: Filter by last updated date/time in FHIR date format
+        schema:
+          type: string
+      - name: service-date
+        in: query
+        required: false
+        description: Filter by service date (FHIR date format)
+        schema:
+          type: string
+          format: date
+      - name: _count
+        in: query
+        required: false
+        description: Maximum number of results per page
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - name: _offset
+        in: query
+        required: false
+        description: Pagination offset
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: FHIR Bundle of ExplanationOfBenefit resources
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/FHIRBundle'
+        '400':
+          description: Bad request - invalid query parameter
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too many requests
+  /Coverage:
+    get:
+      operationId: listCoverage
+      summary: UnitedHealth Group List Member Coverage
+      description: Retrieve FHIR R4 Coverage resources for a member including current and historical insurance coverage details, plan names, benefit periods, group and member identifiers, and payer information across UnitedHealthcare commercial, Medicare, and Medicaid lines of business.
+      tags:
+      - Patient Access
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'DEFAULT';
+      parameters:
+      - name: patient
+        in: query
+        required: true
+        description: Patient resource ID
+        schema:
+          type: string
+      - name: status
+        in: query
+        required: false
+        description: Coverage status filter
+        schema:
+          type: string
+          enum:
+          - active
+          - cancelled
+          - draft
+          - entered-in-error
+      responses:
+        '200':
+          description: FHIR Bundle of Coverage resources
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/FHIRBundle'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too many requests
+components:
+  schemas:
+    FHIRBundle:
+      type: object
+      description: FHIR R4 Bundle resource containing a collection of FHIR resources returned from UnitedHealth Group interoperability API search operations
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - Bundle
+          description: FHIR resource type identifier
+        id:
+          type: string
+          description: Unique Bundle ID
+        meta:
+          type: object
+          description: Bundle metadata
+          properties:
+            lastUpdated:
+              type: string
+              format: date-time
+        type:
+          type: string
+          enum:
+          - searchset
+          - collection
+          description: Bundle type
+        total:
+          type: integer
+          description: Total number of matching resources
+        link:
+          type: array
+          description: Pagination and navigation links
+          items:
+            type: object
+            properties:
+              relation:
+                type: string
+                enum:
+                - self
+                - next
+                - previous
+                - first
+                - last
+              url:
+                type: string
+                format: uri
+        entry:
+          type: array
+          description: Bundle entries containing FHIR resources
+          items:
+            type: object
+            properties:
+              fullUrl:
+                type: string
+                format: uri
+              resource:
+                type: object
+                description: The embedded FHIR resource
+              search:
+                type: object
+                properties:
+                  mode:
+                    type: string
+                    enum:
+                    - match
+                    - include
+                    - outcome
+    FHIRPatient:
+      type: object
+      description: FHIR R4 Patient resource representing a UnitedHealth Group member with demographics, identifiers, and contact information
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - Patient
+          description: FHIR resource type
+        id:
+          type: string
+          description: Patient logical ID
+        meta:
+          type: object
+          description: Resource metadata
+          properties:
+            lastUpdated:
+              type: string
+              format: date-time
+            profile:
+              type: array
+              items:
+                type: string
+        identifier:
+          type: array
+          description: Patient identifiers including member ID and MBI
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                format: uri
+              value:
+                type: string
+        name:
+          type: array
+          description: Patient name(s)
+          items:
+            type: object
+            properties:
+              use:
+                type: string
+                enum:
+                - official
+                - usual
+                - nickname
+              family:
+                type: string
+              given:
+                type: array
+                items:
+                  type: string
+              prefix:
+                type: array
+                items:
+                  type: string
+        birthDate:
+          type: string
+          format: date
+          description: Member date of birth
+        gender:
+          type: string
+          enum:
+          - male
+          - female
+          - other
+          - unknown
+          description: Administrative gender
+        address:
+          type: array
+          description: Patient address(es)
+          items:
+            type: object
+            properties:
+              use:
+                type: string
+              line:
+                type: array
+                items:
+                  type: string
+              city:
+                type: string
+              state:
+                type: string
+              postalCode:
+                type: string
+        telecom:
+          type: array
+          description: Contact information (phone, email)
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                enum:
+                - phone
+                - email
+                - fax
+              value:
+                type: string
+              use:
+                type: string
+        communication:
+          type: array
+          description: Language preferences
+          items:
+            type: object
+            properties:
+              language:
+                type: object
+              preferred:
+                type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 Bearer token obtained via authorization code flow
+externalDocs:
+  description: UnitedHealth Group Interoperability APIs
+  url: https://www.uhc.com/legal/interoperability-apis

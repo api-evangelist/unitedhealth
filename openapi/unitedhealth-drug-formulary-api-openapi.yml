@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: UnitedHealth Group Optum Clinical Data Drug Formulary API
+  description: The UnitedHealth Group interoperability APIs provide FHIR R4-compliant access to healthcare data including patient records, claims history, provider directories, and formulary information in compliance with CMS Interoperability and Patient Access final rule (CMS-9115-F). Operates under the Optum platform serving UnitedHealthcare, UHC Medicare & Retirement, UHC Community & State, and Optum health services. Enables third-party applications and partners to access member health data using HL7 FHIR R4 standards for interoperable health data exchange.
+  version: R4
+  contact:
+    name: UnitedHealth Group Interoperability
+    url: https://www.uhc.com/legal/interoperability-apis
+  license:
+    name: UnitedHealth Group API Terms of Use
+    url: https://www.uhc.com/legal/terms-of-use
+servers:
+- url: https://api.uhc.com/fhir/R4
+  description: UnitedHealth Group FHIR R4 Production
+security:
+- bearerAuth: []
+tags:
+- name: Drug Formulary
+  description: FHIR R4 Drug Formulary API for prescription drug coverage information
+paths:
+  /MedicationKnowledge:
+    get:
+      operationId: listFormularyDrugs
+      summary: UnitedHealth Group List Formulary Drug Coverage
+      description: Retrieve drug formulary information from the UnitedHealthcare FHIR R4 Drug Formulary API including coverage tiers, formulary status, prior authorization requirements, quantity limits, and step therapy requirements for prescription drugs. Implements the Da Vinci Drug Formulary IG.
+      tags:
+      - Drug Formulary
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'DEFAULT';
+      parameters:
+      - name: code
+        in: query
+        required: false
+        description: RxNorm drug code
+        schema:
+          type: string
+      - name: drug-name
+        in: query
+        required: false
+        description: Drug name search string
+        schema:
+          type: string
+      - name: tier
+        in: query
+        required: false
+        description: Formulary tier number filter
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: Maximum number of results
+        schema:
+          type: integer
+          default: 20
+      responses:
+        '200':
+          description: FHIR Bundle of MedicationKnowledge resources
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/FHIRBundle'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too many requests
+components:
+  schemas:
+    FHIRBundle:
+      type: object
+      description: FHIR R4 Bundle resource containing a collection of FHIR resources returned from UnitedHealth Group interoperability API search operations
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - Bundle
+          description: FHIR resource type identifier
+        id:
+          type: string
+          description: Unique Bundle ID
+        meta:
+          type: object
+          description: Bundle metadata
+          properties:
+            lastUpdated:
+              type: string
+              format: date-time
+        type:
+          type: string
+          enum:
+          - searchset
+          - collection
+          description: Bundle type
+        total:
+          type: integer
+          description: Total number of matching resources
+        link:
+          type: array
+          description: Pagination and navigation links
+          items:
+            type: object
+            properties:
+              relation:
+                type: string
+                enum:
+                - self
+                - next
+                - previous
+                - first
+                - last
+              url:
+                type: string
+                format: uri
+        entry:
+          type: array
+          description: Bundle entries containing FHIR resources
+          items:
+            type: object
+            properties:
+              fullUrl:
+                type: string
+                format: uri
+              resource:
+                type: object
+                description: The embedded FHIR resource
+              search:
+                type: object
+                properties:
+                  mode:
+                    type: string
+                    enum:
+                    - match
+                    - include
+                    - outcome
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 Bearer token obtained via authorization code flow
+externalDocs:
+  description: UnitedHealth Group Interoperability APIs
+  url: https://www.uhc.com/legal/interoperability-apis
