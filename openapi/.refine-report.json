@@ -1,0 +1,20 @@
+{
+  "provider": "unitedhealth",
+  "sources": [
+    "unitedhealth-clinical-data-api-openapi.yml",
+    "unitedhealth-drug-formulary-api-openapi.yml",
+    "unitedhealth-patient-access-api-openapi.yml",
+    "unitedhealth-provider-directory-api-openapi.yml"
+  ],
+  "outputs": [
+    "unitedhealth-clinical-data-api-openapi.yml",
+    "unitedhealth-drug-formulary-api-openapi.yml",
+    "unitedhealth-patient-access-api-openapi.yml",
+    "unitedhealth-provider-directory-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
