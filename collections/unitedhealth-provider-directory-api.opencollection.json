@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "UnitedHealth Group Optum Clinical Data Provider Directory API",
+    "version": "R4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Provider Directory",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "UnitedHealth Group List Network Practitioners",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Practitioner",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Provider name search"
+              },
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "query",
+                "description": "NPI or other identifier"
+              },
+              {
+                "name": "specialty",
+                "value": "",
+                "type": "query",
+                "description": "Provider specialty taxonomy code"
+              },
+              {
+                "name": "address-state",
+                "value": "",
+                "type": "query",
+                "description": "State code for geographic filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Search the UnitedHealthcare FHIR R4 Provider Directory for individual healthcare practitioners by name, NPI, specialty, or geographic location. Implements the Da Vinci PDex Plan Net Implementation Guide for provider directory services."
+        },
+        {
+          "info": {
+            "name": "UnitedHealth Group List Network Organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/Organization",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Organization name search"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Organization type code"
+              },
+              {
+                "name": "address-state",
+                "value": "",
+                "type": "query",
+                "description": "State code filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Search the UnitedHealthcare FHIR R4 Provider Directory for healthcare organizations including hospitals, medical groups, and specialty facilities. Supports filtering by organization type, name, and location. Implements Da Vinci PDex Plan Net IG."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

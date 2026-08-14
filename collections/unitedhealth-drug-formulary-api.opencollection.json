@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "UnitedHealth Group Optum Clinical Data Drug Formulary API",
+    "version": "R4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Drug Formulary",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "UnitedHealth Group List Formulary Drug Coverage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.uhc.com/fhir/R4/MedicationKnowledge",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query",
+                "description": "RxNorm drug code"
+              },
+              {
+                "name": "drug-name",
+                "value": "",
+                "type": "query",
+                "description": "Drug name search string"
+              },
+              {
+                "name": "tier",
+                "value": "",
+                "type": "query",
+                "description": "Formulary tier number filter"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              }
+            ]
+          },
+          "docs": "Retrieve drug formulary information from the UnitedHealthcare FHIR R4 Drug Formulary API including coverage tiers, formulary status, prior authorization requirements, quantity limits, and step therapy requirements for prescription drugs. Implements the Da Vinci Drug Formulary IG."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
