@@ -1,0 +1,37 @@
+slug: unitedhealth
+provider: UnitedHealth Group
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Healthcare Providers
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Clinical Data
+  spec_file: unitedhealth-clinical-data-api-openapi.yml
+  capability_id: BC-2900.60
+  capability_id_l1: BC-2900
+  capability_name: Healthcare Interoperability Operations
+  confidence: 0.8
+  evidence: GET /Condition  listConditions  UnitedHealth Group List Member Conditions ... FHIR R4-compliant
+    access to healthcare data ... in compliance with CMS Interoperability and Patient Access final rule
+  reason: Exposes clinical condition records over HL7 FHIR R4 endpoints for interoperable health data
+    exchange, which matches Healthcare Interoperability Operations (FHIR endpoints, health information
+    exchange). Not clinical documentation authoring — it is read-only data exchange.
+- tag: Patient Access
+  spec_file: unitedhealth-patient-access-api-openapi.yml
+  capability_id: BC-2900.60
+  capability_id_l1: BC-2900
+  capability_name: Healthcare Interoperability Operations
+  confidence: 0.75
+  evidence: GET /Patient/{id} Get Patient Demographics ... GET /Coverage listCoverage ... 'Enables third-party
+    applications and partners to access member health data using HL7 FHIR R4 standards'
+  reason: CMS Patient Access rule implementation exposing patient, coverage and EOB resources over FHIR
+    to third-party apps — patient-initiated data sharing via FHIR endpoints. Some pull toward eligibility
+    verification from the Coverage resource, hence 0.75.
