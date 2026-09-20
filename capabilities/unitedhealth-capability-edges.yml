@@ -11,8 +11,20 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 2
 edges:
+- tag: Clinical Data
+  spec_file: unitedhealth-clinical-data-api-openapi.yml
+  capability_id: BC-2900.60
+  capability_id_l1: BC-2900
+  capability_name: Healthcare Interoperability Operations
+  confidence: 0.8
+  evidence: GET /Condition  listConditions  UnitedHealth Group List Member Conditions ... FHIR R4-compliant
+    access to healthcare data ... in compliance with CMS Interoperability and Patient Access final rule
+  reason: Exposes clinical condition records over HL7 FHIR R4 endpoints for interoperable health data
+    exchange, which matches Healthcare Interoperability Operations (FHIR endpoints, health information
+    exchange). Not clinical documentation authoring — it is read-only data exchange.
+  recovered_from: healthcare-vertical-edges.json
 - tag: Patient Access
   spec_file: unitedhealth-patient-access-api-openapi.yml
   capability_id: BC-2900.60
