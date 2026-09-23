@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: UnitedHealth Group Optum Clinical Data Drug Formulary API
-  description: The UnitedHealth Group interoperability APIs provide FHIR R4-compliant access to healthcare data including patient records, claims history, provider directories, and formulary information in compliance with CMS Interoperability and Patient Access final rule (CMS-9115-F). Operates under the Optum platform serving UnitedHealthcare, UHC Medicare & Retirement, UHC Community & State, and Optum health services. Enables third-party applications and partners to access member health data using HL7 FHIR R4 standards for interoperable health data exchange.
+  title: UnitedHealth Group Optum Drug Formulary API
+  description: The UnitedHealth Group interoperability APIs provide FHIR R4-compliant access to healthcare data including patient records, claims history, provider directories, and formulary information in compliance with CMS Interoperability and Patient Access final rule (CMS-9115-F).
   version: R4
   contact:
     name: UnitedHealth Group Interoperability

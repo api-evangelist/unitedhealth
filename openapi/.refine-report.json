@@ -1,10 +1,7 @@
 {
   "provider": "unitedhealth",
   "sources": [
-    "unitedhealth-clinical-data-api-openapi.yml",
-    "unitedhealth-drug-formulary-api-openapi.yml",
-    "unitedhealth-patient-access-api-openapi.yml",
-    "unitedhealth-provider-directory-api-openapi.yml"
+    "_original/unitedhealth-optum-api-openapi.yml"
   ],
   "outputs": [
     "unitedhealth-clinical-data-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "unitedhealth-optum-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "unitedhealth-clinical-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "unitedhealth-drug-formulary-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "unitedhealth-patient-access-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "unitedhealth-provider-directory-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
