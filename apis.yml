@@ -47,6 +47,12 @@ modified: '2026-10-06'
 position: Consuming
 specificationVersion: '0.23'
 common:
+- type: Plans
+  url: plans/unitedhealth-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/unitedhealth-rate-limits.yml
+- type: FinOps
+  url: finops/unitedhealth-finops.yml
 - url: https://www.uhc.com/news-articles/newsroom?cid=vanity-news
   type: Blog
 - type: CapabilityMap
