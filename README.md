@@ -1,4 +1,4 @@
-# UnitedHealth Group (unitedhealth)
+# UnitedHealth Group
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,60 +66,142 @@
 
 UnitedHealth Group is a diversified health care company with two distinct platforms, UnitedHealthcare for health benefits and Optum for health services, serving more than 100 million people worldwide. The company offers FHIR R4-compliant Interoperability APIs through the Optum platform, providing patient access to health records, claims history, provider directory, and drug formulary data in compliance with CMS Interoperability and Patient Access final rule (CMS-9115-F) and HL7 FHIR standards.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/unitedhealth/refs/heads/main/apis.yml)
+**Areas:** Healthcare · Health Insurance · FHIR · Claims · Interoperability · Fortune 100
 
-## Scope
+## UnitedHealth Group on APIs.io
 
-- **Position:** Consuming
-- **Access:** 3rd-Party
+Everything profiled for UnitedHealth Group is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/unitedhealth/](https://apis.io/providers/unitedhealth/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (4)
 
-- Healthcare
-- Health Insurance
-- FHIR
-- Claims
-- Interoperability
+- [UnitedHealth Group Clinical Data API](https://apis.io/apis/unitedhealth/unitedhealth-clinical-data-api/) — FHIR R4 clinical data including conditions, observations, and medications
+- [UnitedHealth Group Drug Formulary API](https://apis.io/apis/unitedhealth/unitedhealth-drug-formulary-api/) — FHIR R4 Drug Formulary API for prescription drug coverage information
+- [UnitedHealth Group Patient Access API](https://apis.io/apis/unitedhealth/unitedhealth-patient-access-api/) — FHIR R4 Patient Access API for member health data (CMS-9115-F)
+- [UnitedHealth Group Provider Directory API](https://apis.io/apis/unitedhealth/unitedhealth-provider-directory-api/) — FHIR R4 Provider Directory API implementing Da Vinci PDex Plan Net IG
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-21
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### GraphQL (1)
 
-### UnitedHealth Group Optum API
+GraphQL schemas.
 
-The UnitedHealth Group interoperability APIs provide FHIR R4-compliant access to healthcare data including patient records, claims history, provider directories, and formulary information in compliance with CMS interoperability rules. Operates under the Optum platform serving UnitedHealthcare, Medicare & Retirement, Community & State, and Optum health services.
+- [Moved to /providers/unitedhealth/](https://apis.io/graphqls/unitedhealth/unitedhealth-graphql/)
 
-- **Human URL:** [https://www.uhc.com/legal/interoperability-apis](https://www.uhc.com/legal/interoperability-apis)
-- **Base URL:** `https://api.uhc.com/fhir/R4`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Healthcare
-- FHIR
-- Patient Access
-- Provider Directory
-- Drug Formulary
-- CMS Interoperability
+- [Unitedhealth Agentic Access](https://apis.io/agentic-access/unitedhealth/unitedhealth-agentic-access/)
 
-#### Properties
+#### JSON Schema (6)
 
-- [Documentation](https://www.uhc.com/legal/interoperability-apis)
-- [OpenAPI](openapi/unitedhealth-optum-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/unitedhealth-optum-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/unitedhealth-optum-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Schema](json-schema/optum-fhir-bundle-schema.json)
-- [Schema](json-schema/optum-fhir-patient-schema.json)
-- [J S O N- L D  Context](json-ld/unitedhealth-optum-api-context.jsonld)
-- [Example](examples/optum-fhir-patient-example.json)
+The data models the API reads and writes.
 
-## Common Properties
+- [UnitedHealth Group FHIR Bundle](https://apis.io/schemas/unitedhealth/optum-fhir-bundle/)
+- [UnitedHealth Group FHIR Coverage](https://apis.io/schemas/unitedhealth/optum-fhir-coverage/)
+- [UnitedHealth Group FHIR ExplanationOfBenefit](https://apis.io/schemas/unitedhealth/optum-fhir-explanation-of-benefit/)
+- [UnitedHealth Group FHIR MedicationKnowledge](https://apis.io/schemas/unitedhealth/optum-fhir-medication-knowledge/)
+- [UnitedHealth Group FHIR Patient](https://apis.io/schemas/unitedhealth/optum-fhir-patient/)
+- [UnitedHealth Group FHIR Practitioner](https://apis.io/schemas/unitedhealth/optum-fhir-practitioner/)
 
-- [LinkedIn](https://www.linkedin.com/company/unitedhealth-group)
+#### JSON Structure (6)
 
-## Maintainers
+Data models expressed in JSON Structure.
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+- [Optum Fhir Bundle Structure](https://apis.io/json-structure/unitedhealth/optum-fhir-bundle-structure/)
+- [Optum Fhir Coverage Structure](https://apis.io/json-structure/unitedhealth/optum-fhir-coverage-structure/)
+- [Optum Fhir Explanation Of Benefit Structure](https://apis.io/json-structure/unitedhealth/optum-fhir-explanation-of-benefit-structure/)
+- [Optum Fhir Medication Knowledge Structure](https://apis.io/json-structure/unitedhealth/optum-fhir-medication-knowledge-structure/)
+- [Optum Fhir Patient Structure](https://apis.io/json-structure/unitedhealth/optum-fhir-patient-structure/)
+- [Optum Fhir Practitioner Structure](https://apis.io/json-structure/unitedhealth/optum-fhir-practitioner-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Unitedhealth Optum Api Context](https://apis.io/jsonld/unitedhealth/unitedhealth-optum-api-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Unitedhealth Vocabulary](https://apis.io/vocabularies/unitedhealth/unitedhealth-vocabulary/)
+
+#### Examples (5)
+
+Example requests and responses.
+
+- [Optum Fhir Bundle Example](https://apis.io/examples/unitedhealth/optum-fhir-bundle-example/)
+- [Optum Fhir Coverage Example](https://apis.io/examples/unitedhealth/optum-fhir-coverage-example/)
+- [Optum Fhir Medication Knowledge Example](https://apis.io/examples/unitedhealth/optum-fhir-medication-knowledge-example/)
+- [Optum Fhir Patient Example](https://apis.io/examples/unitedhealth/optum-fhir-patient-example/)
+- [Optum Fhir Practitioner Example](https://apis.io/examples/unitedhealth/optum-fhir-practitioner-example/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [UnitedHealth Group Optum Clinical Data API](https://apis.io/collections/unitedhealth/open-unitedhealth-clinical-data-api/)
+- [UnitedHealth Group Optum Clinical Data Drug Formulary API](https://apis.io/collections/unitedhealth/open-unitedhealth-drug-formulary-api/)
+- [UnitedHealth Group Optum API](https://apis.io/collections/unitedhealth/open-unitedhealth-optum-api/)
+- [UnitedHealth Group Optum Clinical Data Patient Access API](https://apis.io/collections/unitedhealth/open-unitedhealth-patient-access-api/)
+- [UnitedHealth Group Optum Clinical Data Provider Directory API](https://apis.io/collections/unitedhealth/open-unitedhealth-provider-directory-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [UnitedHealth Group — jsonschema rules](https://apis.io/rules/unitedhealth/unitedhealth-jsonschema-spectral-rules/)
+- [UnitedHealth Group API Rules](https://apis.io/rules/unitedhealth/unitedhealth-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Unitedhealth Authentication](https://apis.io/security/unitedhealth/unitedhealth-authentication/)
+- [Unitedhealth Domain Security](https://apis.io/security/unitedhealth/unitedhealth-domain-security/)
+- [Unitedhealth Vulnerability Disclosure](https://apis.io/security/unitedhealth/unitedhealth-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Unitedhealth Plans Pricing](https://apis.io/plans/unitedhealth/unitedhealth-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Unitedhealth Rate Limits](https://apis.io/rate-limits/unitedhealth/unitedhealth-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Unitedhealth Finops](https://apis.io/finops/unitedhealth/unitedhealth-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Blog](https://www.uhc.com/news-articles/newsroom?cid=vanity-news)
+
+## API Evangelist rating
+
+**Unrated** — no public website could be reached for this company, so there was almost nothing to measure and nothing a reader could check.
+
+This is not a score of zero. No rating is published for this company. If that is wrong because something public exists that we missed, say so on this repository or email [info@apievangelist.com](mailto:info@apievangelist.com) and it will be re-run — free, and no justification needed.
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for UnitedHealth Group: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/unitedhealth/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
